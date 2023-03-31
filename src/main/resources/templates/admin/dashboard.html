@@ -1,0 +1,161 @@
+<!--admin/dashboard.html-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Calendar HQ</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link th:href="@{/css/main.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/icons/style.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<div class="header">
+    <h1>Calendar HQ</h1>
+    <div>Family Organisation Streamlined</div>
+</div>
+
+<div class="main" style="display: flex;">
+    <div style="margin-right: 10px;">
+        <div id="nav"></div>
+    </div>
+    <div style="flex-grow: 1">
+        <div id="dp"></div>
+    </div>
+</div>
+
+<!-- DayPilot library -->
+<script th:src="@{/js/daypilot/daypilot-all.min.js}"></script>
+
+<script th:inline="javascript">
+
+    const nav = new DayPilot.Navigator("nav");
+    nav.showMonths = 3;
+    nav.skipMonths = 3;
+    nav.selectMode = "week";
+    nav.onTimeRangeSelected = (args) => {
+        dp.startDate = args.day;
+        dp.update();
+        dp.events.load("/api/events");
+    };
+    nav.init();
+
+
+    const dp = new DayPilot.Calendar("dp");
+    dp.viewType = "Week";
+    dp.onTimeRangeSelected = function (args) {
+    var modal = new DayPilot.Modal();
+    modal.closed = function() {
+        if (this.result && this.result.result === "OK") {
+            var dp = args.control;
+            dp.clearSelection();
+            var params = {
+                title: this.result.title,
+                date: args.start.toString(),
+                startTime: args.start.getTime(),
+                endTime: args.end.getTime(),
+                category: this.result.category,
+                completed: this.result.completed,
+                notes: this.result.notes,
+                user: this.result.user
+            };
+            DayPilot.Http.ajax({
+                url: '/api/events',
+                method: 'POST',
+                data: params,
+                success: function (ajax) {
+                    var data = ajax.data;
+                    dp.events.add(new DayPilot.Event(data));
+                    dp.message("Event created");
+                }
+            });
+        }
+    };
+    modal.showUrl("/create-event.html");
+};
+    dp.onEventMove = function (args) {
+        var params = {
+            id: args.e.id(),
+            start: args.newStart.getTime(),
+            end: args.newEnd.getTime()
+        };
+        DayPilot.Http.ajax({
+            url: '/api/events/' + args.e.id(),
+            data: params,
+            success: function (ajax) {
+                dp.message("Event moved");
+            }
+        });
+    };
+    dp.onEventResize = function (args) {
+        var params = {
+            id: args.e.id(),
+            start: args.newStart.getTime(),
+            end: args.newEnd.getTime()
+        };
+        DayPilot.Http.ajax({
+            url: '/api/events/' + args.e.id(),
+            data: params,
+            success: function (ajax) {
+                dp.message("Event resized");
+            }
+        });
+    };
+      dp.onBeforeEventRender = function(args) {
+        args.data.barColor = args.data.category === 'Work' ? '#38761d' : args.data.category === 'Personal' ? '#0069d9' : args.data.category === 'Family' ? '#b31b1b' : '#555555';
+        args.data.areas = [
+            { top: 2, right: 2, icon: "icon-triangle-down", visibility: "Visible", action: "ContextMenu", style: "font-size: 12px; background-color: #f9f9f9; border: 1px solid #ccc; padding: 2px 2px 0px 2px; cursor:pointer;"}
+        ];
+    };
+
+
+    dp.contextMenu = new DayPilot.Menu({
+        items: [
+            {
+                text: "Work",
+                icon: "icon icon-blue",
+                category: "Work",
+                onClick: function(args) { updateCategory(args.source, args.item.category); }
+            },
+            {
+                text: "Personal",
+                icon: "icon icon-green",
+                category: "Personal",
+                onClick: function(args) { updateCategory(args.source, args.item.category); }
+            },
+            {
+                text: "Family",
+                icon: "icon icon-red",
+                category: "Family",
+                onClick: function(args) { updateCategory(args.source, args.item.category); }
+            },
+            {
+                text: "Other",
+                icon: "icon icon-gray",
+                category: "Other",
+                onClick: function(args) { updateCategory(args.source, args.item.category); }
+            },
+        ]
+    });
+    dp.init();
+
+    dp.events.load("/api/events");
+
+    function updateCategory(e, category) {
+        var params = {
+            id: e.id(),
+            category: category
+        };
+        DayPilot.Http.ajax({
+            url: '/api/events/setCategory',
+            data: params,
+            success: function (ajax) {
+                e.data.category = category;
+                dp.events.update(e);
+                dp.message("Category updated");
+            }
+        });
+    }
+</script>
+</body>
+</html>
