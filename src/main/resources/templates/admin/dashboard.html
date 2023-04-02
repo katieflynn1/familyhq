@@ -8,6 +8,10 @@
 
     <link th:href="@{/css/main.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/icons/style.css}" rel="stylesheet" type="text/css">
+
+    <!-- DayPilot library -->
+    <script th:src="@{/js/daypilot/daypilot-all.min.js}"></script>
+
 </head>
 <body>
 <div class="header">
@@ -24,41 +28,38 @@
     </div>
 </div>
 
-<!-- DayPilot library -->
-<script th:src="@{/js/daypilot/daypilot-all.min.js}"></script>
-
 <script th:inline="javascript">
-
-    const nav = new DayPilot.Navigator("nav");
-    nav.showMonths = 3;
-    nav.skipMonths = 3;
-    nav.selectMode = "week";
-    nav.onTimeRangeSelected = (args) => {
-        dp.startDate = args.day;
-        dp.update();
-        dp.events.load("/api/events");
-    };
-    nav.init();
-
-
+    
     const dp = new DayPilot.Calendar("dp");
     dp.viewType = "Week";
     dp.onTimeRangeSelected = function (args) {
-    var modal = new DayPilot.Modal();
-    modal.closed = function() {
-        if (this.result && this.result.result === "OK") {
-            var dp = args.control;
-            dp.clearSelection();
+    var form = [
+        { name: "Title", id: "title", type: "text" },
+        { name: "Start Time", id: "start", type: "date" },
+        { name: "End Time", id: "end", type: "date" },
+        { name: "Category", id: "category", type: "select", options: [
+            { name: "Work", id: "work" },
+            { name: "Personal", id: "personal" },
+            { name: "Family", id: "family" },
+            { name: "Other", id: "other" }
+        ]},
+        { name: "Completed", id: "completed", type: "checkbox" },
+        { name: "Notes", id: "notes", type: "textarea" },
+        { name: "User", id: "user", type: "text" },
+    ];
+
+    DayPilot.Modal.form(form).then(function(modal) {
+        if (modal.result === "OK") {
             var params = {
-                title: this.result.title,
-                date: args.start.toString(),
-                startTime: args.start.getTime(),
-                endTime: args.end.getTime(),
-                category: this.result.category,
-                completed: this.result.completed,
-                notes: this.result.notes,
-                user: this.result.user
+                title: modal.result.title,
+                start: modal.result.start.getTime(),
+                end: modal.result.end.getTime(),
+                category: modal.result.category,
+                completed: modal.result.completed,
+                notes: modal.result.notes,
+                user: modal.result.user
             };
+
             DayPilot.Http.ajax({
                 url: '/api/events',
                 method: 'POST',
@@ -70,9 +71,9 @@
                 }
             });
         }
-    };
-    modal.showUrl("/create-event.html");
+    });
 };
+
     dp.onEventMove = function (args) {
         var params = {
             id: args.e.id(),

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.xml.sax.SAXException;
 
-import com.fam.model.Country;
 import com.fam.model.Variant;
 import com.fam.service.VariantService;
 

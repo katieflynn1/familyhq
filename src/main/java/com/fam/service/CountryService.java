@@ -8,7 +8,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.xml.sax.SAXException;
 
 import com.fam.model.Country;
-import com.fam.model.Variant;
 
 public interface CountryService {
 	

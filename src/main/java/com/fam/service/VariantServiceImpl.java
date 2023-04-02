@@ -2,13 +2,8 @@ package com.fam.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,9 +16,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.xml.sax.SAXException;
 
-import com.fam.model.Country;
 import com.fam.model.Variant;
-import com.fam.repository.CountryRepository;
 import com.fam.repository.VariantRepository;
 
 public class VariantServiceImpl implements VariantService {
