@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Create Event</h1>
-    <form th:action="@{/api/events}" method="POST">
+   <form th:action="@{/api/events/}" method="POST">
         <p>
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required th:field="*{title}" />

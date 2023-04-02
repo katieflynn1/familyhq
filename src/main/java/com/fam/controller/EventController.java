@@ -1,6 +1,7 @@
 package com.fam.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,13 +11,17 @@ import com.fam.model.User;
 import com.fam.service.EventService;
 import com.fam.service.UserService;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/events")
@@ -28,6 +33,19 @@ public class EventController {
     public EventController(EventService eventService, UserService userService) {
         this.eventService = eventService;
         this.userService = userService;
+    }
+    
+    @GetMapping("/create")
+    public ResponseEntity<String> getCreateEventPage() {
+        ClassPathResource resource = new ClassPathResource("templates/create-event.html");
+        try {
+            InputStream inputStream = resource.getInputStream();
+            String content = new BufferedReader(new InputStreamReader(inputStream))
+                    .lines().collect(Collectors.joining("\n"));
+            return ResponseEntity.ok(content);
+        } catch (IOException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping("")
@@ -44,8 +62,7 @@ public class EventController {
 
         	Instant endInstant = Instant.ofEpochMilli(endTime);
         	LocalTime endTimeLocal = LocalDateTime.ofInstant(endInstant, ZoneId.systemDefault()).toLocalTime();
-
-        	try {
+        	
             // create the event object from the request parameters
             Event event = new Event();
             event.setTitle(title);
@@ -62,8 +79,6 @@ public class EventController {
 
             Event savedEvent = eventService.saveEvent(event);
             return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);}
         }
 
     @GetMapping("/{id}")
