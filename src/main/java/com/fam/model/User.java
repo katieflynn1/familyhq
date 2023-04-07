@@ -37,7 +37,7 @@ public class User implements UserDetails  {
             strategy = GenerationType.SEQUENCE,
             generator = "users_sequence"
     )
-    private int id;
+    public int id;
 
     @NotNull(message = "First Name cannot be empty")
     @Column(name = "first_name")
@@ -135,8 +135,6 @@ public class User implements UserDetails  {
     public String getMobile() { return mobile; }
 
     public void setMobile(String mobile) { this.mobile = mobile; }
-
-    public String getLastName() { return lastName; }
 
     public void setLastName(String lastName) { this.lastName = lastName; }
 }

@@ -1,44 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8" />
+    <meta charset="UTF-8">
     <title>Create Event</title>
 </head>
 <body>
-    <h1>Create Event</h1>
-   <form th:action="@{/api/events/}" method="POST">
-        <p>
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required th:field="*{title}" />
-        </p>
-        <p>
-            <label for="start">Start:</label>
-            <input type="datetime-local" id="start" name="start" th:value="${#dates.format(start, 'yyyy-MM-dd\'T\'HH:mm')}" required th:field="*{start}" />
-        </p>
-        <p>
-            <label for="end">End:</label>
-            <input type="datetime-local" id="end" name="end" th:value="${#dates.format(end, 'yyyy-MM-dd\'T\'HH:mm')}" required th:field="*{end}" />
-        </p>
-        <p>
-            <label for="category">Category:</label>
-            <label><input type="checkbox" id="category1" name="category" value="Work" th:field="*{category}" /> Work</label>
-            <label><input type="checkbox" id="category2" name="category" value="Personal" th:field="*{category}" /> Personal</label>
-            <label><input type="checkbox" id="category3" name="category" value="Family" th:field="*{category}" /> Family</label>
-        </p>
-        <p>
-            <label for="completed">Completed:</label>
-            <input type="checkbox" id="completed" name="completed" th:checked="${completed}" th:field="*{completed}" />
-        </p>
-        <p>
-            <label for="notes">Notes:</label>
-            <textarea id="notes" name="notes" th:field="*{notes}"></textarea>
-        </p>
-        <p>
-            <label for="user">User:</label>
-            <input type="text" id="user" name="user" th:field="*{user}" />
-        </p>
-        <input type="hidden" name="date" th:value="${#dates.format(start, 'yyyy-MM-dd')}" th:field="*{date}" />
-        <button type="submit">Create</button>
-    </form>
+<h1>Create Event</h1>
+<form th:action="@{/create-event}" method="post" th:object="${eventForm}">
+
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" required/>
+
+    <label for="startTime">Start Time:</label>
+    <input type="datetime-local" id="startTime" name="startTime" required/>
+
+    <label for="endTime">End Time:</label>
+    <input type="datetime-local" id="endTime" name="endTime" required/>
+
+    <label for="category">Category:</label>
+    <select id="category" name="category" required>
+        <option value="Work">Work</option>
+        <option value="Personal">Personal</option>
+        <option value="Family">Family</option>
+        <option value="Other">Other</option>
+    </select>
+
+    <label for="completed">Completed:</label>
+    <input type="checkbox" id="completed" name="completed"/>
+
+    <label for="notes">Notes:</label>
+    <textarea id="notes" name="notes"></textarea>
+
+    <label for="color">Color:</label>
+    <input type="text" id="color" name="color"/>
+
+    <label for="user">User:</label>
+    <input type="text" id="user" name="user" required/>
+
+    <button type="submit">Create Event</button>
+</form>
 </body>
 </html>

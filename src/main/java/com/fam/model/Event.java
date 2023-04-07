@@ -2,51 +2,53 @@ package com.fam.model;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "events")
+@Table(name = "user_event")
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    public Long id;
 
     @Column(nullable = false)
-    private String title;
-
-    @Column(nullable = false)
-    private LocalDate date;
+    public String title;
 
     @Column(name = "start_time", nullable = false)
-    private LocalTime startTime;
+    public LocalDateTime start;
 
     @Column(name = "end_time", nullable = false)
-    private LocalTime endTime;
+    public LocalDateTime end;
 
     @Column(nullable = false)
-    private String category;
+    public String category;
 
     @Column(nullable = false)
     private boolean completed;
 
-    private String notes;
+    @Column
+    public String notes;
+
+    @Column
+    public String color;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    public User user;
 
     public Event() {
     }
 
-    public Event(String title, LocalDate date, LocalTime startTime, LocalTime endTime, String category, boolean completed, String notes, User user) {
+    public Event(String title, LocalDateTime start, LocalDateTime end, String category, boolean completed, String notes, String color, User user) {
         this.title = title;
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
+        this.start = start;
+        this.end = end;
         this.category = category;
         this.completed = completed;
         this.notes = notes;
+        this.color = color;
         this.user = user;
     }
 
@@ -67,28 +69,20 @@ public class Event {
         this.title = title;
     }
 
-    public LocalDate getDate() {
-        return date;
+    public LocalDateTime getStart() {
+        return start;
     }
 
-    public void setDate(LocalDate date) {
-        this.date = date;
+    public void setStart(LocalDateTime start) {
+        this.start = start;
     }
 
-    public LocalTime getStartTime() {
-        return startTime;
+    public LocalDateTime getEnd() {
+        return end;
     }
 
-    public void setStartTime(LocalTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalTime endTime) {
-        this.endTime = endTime;
+    public void setEnd(LocalDateTime end) {
+        this.end = end;
     }
 
     public String getCategory() {
@@ -114,6 +108,10 @@ public class Event {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    public String getColor() { return color; }
+
+    public void setColor(String color) { this.color = color; }
 
     public User getUser() {
         return user;
