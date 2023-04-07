@@ -1,125 +1,128 @@
 package com.fam.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.fam.model.Event;
 import com.fam.model.User;
-import com.fam.service.EventService;
+import com.fam.repository.EventRepository;
+import com.fam.repository.UserRepository;
 import com.fam.service.UserService;
+import com.fam.service.UserServiceImpl;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.web.bind.annotation.*;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.time.Instant;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.ZoneId;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/events")
 public class EventController {
-    private final EventService eventService;
-    private final UserService userService;
+
+    private final EventRepository er;
+    private final UserRepository ur ;
 
     @Autowired
-    public EventController(EventService eventService, UserService userService) {
-        this.eventService = eventService;
-        this.userService = userService;
-    }
-    
-    @GetMapping("/create")
-    public ResponseEntity<String> getCreateEventPage() {
-        ClassPathResource resource = new ClassPathResource("templates/create-event.html");
-        try {
-            InputStream inputStream = resource.getInputStream();
-            String content = new BufferedReader(new InputStreamReader(inputStream))
-                    .lines().collect(Collectors.joining("\n"));
-            return ResponseEntity.ok(content);
-        } catch (IOException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+    public EventController(EventRepository er,UserRepository ur) {
+        this.er = er;
+        this.ur = ur;
     }
 
-    @PostMapping("")
-    public ResponseEntity<Event> createEvent(@RequestParam("title") String title,
-        @RequestParam("date") String date,
-        @RequestParam("startTime") Long startTime,
-        @RequestParam("endTime") Long endTime,
-        @RequestParam("category") String category,
-        @RequestParam(value = "completed", defaultValue = "false") boolean completed,
-        @RequestParam(value = "notes", required = false) String notes,
-        @RequestParam(value = "user", required = false) Long userId) {
-        	Instant startInstant = Instant.ofEpochMilli(startTime);
-        	LocalTime startTimeLocal = LocalDateTime.ofInstant(startInstant, ZoneId.systemDefault()).toLocalTime();
+    @GetMapping("/api/events")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    Iterable<Event> events(@RequestParam("start") @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime start, @RequestParam("end") @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime end) {
+        return er.findBetween(start, end);
+    }
 
-        	Instant endInstant = Instant.ofEpochMilli(endTime);
-        	LocalTime endTimeLocal = LocalDateTime.ofInstant(endInstant, ZoneId.systemDefault()).toLocalTime();
-        	
-            // create the event object from the request parameters
-            Event event = new Event();
-            event.setTitle(title);
-            event.setDate(LocalDate.parse(date));
-            event.setStartTime(startTimeLocal);
-        	event.setEndTime(endTimeLocal);
-            event.setCategory(category);
-            event.setCompleted(completed);
-            event.setNotes(notes);
-            if (userId != null) {
-                User user = userService.getUserById(userId);
-                event.setUser(user);
-            }
+    @PostMapping("/api/events/create")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @Transactional
+    Event createEvent1(@RequestBody EventCreateParams params) {
 
-            Event savedEvent = eventService.saveEvent(event);
-            return new ResponseEntity<>(savedEvent, HttpStatus.CREATED);
+        Event e = new Event();
+        e.setTitle(params.title);
+        e.setStart(params.start);
+        e.setEnd(params.end);
+        e.setCategory(params.category);
+        e.setCompleted(params.completed);
+        e.setNotes(params.notes);
+        e.setColor(params.color);
+        if (params.userId != null) {
+            User user = ur.findById(params.userId).get();
+            e.setUser(user);
         }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Event> getEventById(@PathVariable Long id) {
-        Event event = eventService.getEventById(id);
-        if (event == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        er.save(e);
+        return e;
+    }
+    @PostMapping("/create-event")
+    public String createEvent(@ModelAttribute("eventForm") EventCreateParams params) {
+
+        Event e = new Event();
+        e.setTitle(params.title);
+        e.setStart(params.start);
+        e.setEnd(params.end);
+        e.setCategory(params.category);
+        e.setCompleted(params.completed);
+        e.setNotes(params.notes);
+        e.setColor(params.color);
+        if (params.userId != null) {
+            User user = ur.findById(params.userId).get();
+            e.setUser(user);
         }
-        return new ResponseEntity<>(event, HttpStatus.OK);
+
+        er.save(e);
+
+        return "redirect:/admin/dashboard";
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<Event>> getEventsByUserId(@PathVariable Long userId) {
-        List<Event> events = eventService.getEventsByUserId(userId);
-        return new ResponseEntity<>(events, HttpStatus.OK);
+    @PostMapping("/api/events/move")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @Transactional
+    Event moveEvent(@RequestBody EventMoveParams params) {
+
+        Event e = er.findById(params.id).get();
+        e.setStart(params.start);
+        e.setEnd(params.end);
+
+        er.save(e);
+        return e;
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Event> updateEvent(@PathVariable Long id, @RequestBody Event event) {
-        Event existingEvent = eventService.getEventById(id);
-        if (existingEvent == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        existingEvent.setTitle(event.getTitle());
-        existingEvent.setDate(event.getDate());
-        existingEvent.setStartTime(event.getStartTime());
-        existingEvent.setEndTime(event.getEndTime());
-        existingEvent.setCategory(event.getCategory());
-        existingEvent.setCompleted(event.isCompleted());
-        existingEvent.setNotes(event.getNotes());
-        Event savedEvent = eventService.saveEvent(existingEvent);
-        return new ResponseEntity<>(savedEvent, HttpStatus.OK);
+    @PostMapping("/api/events/setColor")
+    @JsonSerialize(using = LocalDateTimeSerializer.class)
+    @Transactional
+    Event setColor(@RequestBody SetColorParams params) {
+
+        Event e = er.findById(params.id).get();
+        e.setColor(params.color);
+        er.save(e);
+
+        return e;
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@PathVariable Long id) {
-        Event event = eventService.getEventById(id);
-        if (event == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        eventService.deleteEvent(event);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    public static class EventCreateParams {
+        public String title;
+        public LocalDateTime start;
+        public LocalDateTime end;
+        public String category;
+        public boolean completed;
+        public String notes;
+        public String color;
+        public User user;
+        public Long userId;
     }
+
+    public static class EventMoveParams {
+        public Long id;
+        public LocalDateTime start;
+        public LocalDateTime end;
+    }
+
+    public static class SetColorParams {
+        public Long id;
+        public String color;
+    }
+
+
 }
