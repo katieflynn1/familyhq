@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class UserController {
 
-    @RequestMapping(value = {"/dashboard"}, method = RequestMethod.GET)
-    public String homePage(){
+    @RequestMapping(value = {"/user/dashboard"}, method = RequestMethod.GET)
+    public String userDashboard(){
         return "user/dashboard";
     }
 }

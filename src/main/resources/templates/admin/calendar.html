@@ -5,6 +5,7 @@
     <meta charset="utf-8"/>
     <title>Calendar HQ</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
 
     <link th:href="@{/css/calendar.css}" rel="stylesheet" type="text/css">
     <link th:href="@{/icons/style.css}" rel="stylesheet" type="text/css">
@@ -26,10 +27,9 @@
         <div id="dp"></div>
     </div>
 </div>
-
 <script th:inline="javascript">
 
-    const nav = new DayPilot.Navigator("nav");
+  const nav = new DayPilot.Navigator("nav");
     nav.showMonths = 3;
     nav.skipMonths = 3;
     nav.selectMode = "week";
@@ -37,36 +37,40 @@
         dp.startDate = args.day;
         dp.update();
         dp.events.load("/api/events");
-        DayPilot.Modal.form({
-            url: "create-event.html",
-            width: 400,
-            height: 400,
-            callback: function(modal) {
-                if (modal.result) {
-                    var params = {
-                        title: modal.result.title,
-                        start: modal.result.start,
-                        end: modal.result.end,
-                        category: modal.result.category,
-                        completed: modal.result.completed,
-                        notes: modal.result.notes,
-                        user: modal.result.user
-                    };
-                    DayPilot.Http.ajax({
-                        url: "/api/events/create",
-                        method: "POST",
-                        data: params,
-                        success: function(ajax) {
-                            var data = ajax.data;
-                            dp.events.add(new DayPilot.Event(data));
-                            dp.message("Event created");
-                        }
-                    });
-                }
-            }
-        });
     };
     nav.init();
+
+  const dp = new DayPilot.Calendar("dp");
+  dp.viewType = "Week";
+  dp.onTimeRangeSelected = function(args) {
+    var form = [
+        { name: "Title", id: "title", type: "text" },
+        { name: "Start Time", id: "start", type: "time" },
+        { name: "End Time", id: "end", type: "time" },
+        { name: "Category", id: "category", type: "select", options: [
+                { name: "Work", id: "work" },
+                { name: "Personal", id: "personal" },
+                { name: "Family", id: "family" },
+                { name: "Other", id: "other" }
+            ]},
+        { name: "Completed", id: "completed", type: "checkbox" },
+        { name: "Notes", id: "notes", type: "textarea" },
+        { name: "User", id: "user", type: "text" },
+    ];
+    DayPilot.Modal.form(form).then(function(modal) {
+        dp.clearSelection();
+        if (!modal.result) { return; }
+        dp.events.add(new DayPilot.Event({
+            title: modal.result.title,
+            start: args.start,
+            end: args.end,
+            category: modal.result.category,
+            completed: modal.result.completed,
+            notes: modal.result.notes,
+            user: modal.result.user
+        }));
+    });
+};
 
     dp.onEventMove = function (args) {
         var params = {

@@ -37,18 +37,25 @@ public class EventController {
     @PostMapping("/api/events/create")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @Transactional
-    Event createEvent1(@RequestBody EventCreateParams params) {
+    public Event createEvent(@RequestParam("title") String title,
+                             @RequestParam("start") LocalDateTime start,
+                             @RequestParam("end") LocalDateTime end,
+                             @RequestParam("category") String category,
+                             @RequestParam("completed") boolean completed,
+                             @RequestParam("notes") String notes,
+                             @RequestParam("color") String color,
+                             @RequestParam(value = "userId", required = false) Long userId) {
 
         Event e = new Event();
-        e.setTitle(params.title);
-        e.setStart(params.start);
-        e.setEnd(params.end);
-        e.setCategory(params.category);
-        e.setCompleted(params.completed);
-        e.setNotes(params.notes);
-        e.setColor(params.color);
-        if (params.userId != null) {
-            User user = ur.findById(params.userId).get();
+        e.setTitle(title);
+        e.setStart(start);
+        e.setEnd(end);
+        e.setCategory(category);
+        e.setCompleted(completed);
+        e.setNotes(notes);
+        e.setColor(color);
+        if (userId != null) {
+            User user = ur.findById(userId).get();
             e.setUser(user);
         }
 
