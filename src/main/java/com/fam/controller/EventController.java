@@ -12,20 +12,23 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.logging.Logger;
 
 @RestController
 public class EventController {
-
     private final EventRepository er;
     private final UserRepository ur ;
+    private final UserService userService;
 
     @Autowired
-    public EventController(EventRepository er,UserRepository ur) {
+    public EventController(EventRepository er,UserRepository ur, UserService userService) {
         this.er = er;
         this.ur = ur;
+        this.userService = userService;
     }
 
     @GetMapping("/api/events")
@@ -35,53 +38,25 @@ public class EventController {
     }
 
     @PostMapping("/api/events/create")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
     @Transactional
-    public Event createEvent(@RequestParam("title") String title,
-                             @RequestParam("start") LocalDateTime start,
-                             @RequestParam("end") LocalDateTime end,
-                             @RequestParam("category") String category,
-                             @RequestParam("completed") boolean completed,
-                             @RequestParam("notes") String notes,
-                             @RequestParam("color") String color,
-                             @RequestParam(value = "userId", required = false) Long userId) {
+    public Event createEvent(@RequestBody EventCreateParams params){
 
-        Event e = new Event();
-        e.setTitle(title);
-        e.setStart(start);
-        e.setEnd(end);
-        e.setCategory(category);
-        e.setCompleted(completed);
-        e.setNotes(notes);
-        e.setColor(color);
-        if (userId != null) {
-            User user = ur.findById(userId).get();
-            e.setUser(user);
+            User userObj = userService.getUserByEmail(params.email);
+            Event e = new Event();
+            e.setTitle(params.title);
+            e.setStart(params.start);
+            e.setEnd(params.end);
+            e.setCategory(params.category);
+            e.setCompleted(params.completed);
+            e.setNotes(params.notes);
+            if (params.email != null) {
+            e.setUser(userObj);
         }
 
         er.save(e);
         return e;
     }
-    @PostMapping("/create-event")
-    public String createEvent(@ModelAttribute("eventForm") EventCreateParams params) {
 
-        Event e = new Event();
-        e.setTitle(params.title);
-        e.setStart(params.start);
-        e.setEnd(params.end);
-        e.setCategory(params.category);
-        e.setCompleted(params.completed);
-        e.setNotes(params.notes);
-        e.setColor(params.color);
-        if (params.userId != null) {
-            User user = ur.findById(params.userId).get();
-            e.setUser(user);
-        }
-
-        er.save(e);
-
-        return "redirect:/admin/dashboard";
-    }
 
     @PostMapping("/api/events/move")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
@@ -96,28 +71,48 @@ public class EventController {
         return e;
     }
 
-    @PostMapping("/api/events/setColor")
+    @PostMapping("/api/events/setCategory")
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @Transactional
-    Event setColor(@RequestBody SetColorParams params) {
+    Event setCategory(@RequestBody SetCategoryParams params) {
 
+        Long id = params.id;
+        if (id == null) {
+            throw new IllegalArgumentException("Event ID must not be null");
+        }
         Event e = er.findById(params.id).get();
-        e.setColor(params.color);
+        e.setCategory(params.category);
         er.save(e);
 
         return e;
     }
 
-    public static class EventCreateParams {
-        public String title;
-        public LocalDateTime start;
-        public LocalDateTime end;
+    @PostMapping("/api/events/update")
+    @Transactional
+    public Event updateEvent(@RequestBody EventUpdateParams params) {
+        User userObj = userService.getUserByEmail(params.email);
+        Event e = er.findById(params.id).orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + params.id));
+        e.setTitle(params.title);
+        e.setCategory(params.category);
+        e.setCompleted(params.completed);
+        e.setNotes(params.notes);
+        if (params.email != null) {
+            e.setUser(userObj);}
+        er.save(e);
+        return e;
+    }
+
+    @GetMapping("/api/events/{eventId}")
+    public Event getEventById(@PathVariable Long eventId) {
+        if (eventId == null) {
+            throw new IllegalArgumentException("getEventById called with eventId: " + eventId);
+        }
+        return er.findById(eventId).orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + eventId));
+    }
+
+    public static class SetCategoryParams {
+        public Long id;
         public String category;
-        public boolean completed;
-        public String notes;
-        public String color;
-        public User user;
-        public Long userId;
     }
 
     public static class EventMoveParams {
@@ -125,11 +120,5 @@ public class EventController {
         public LocalDateTime start;
         public LocalDateTime end;
     }
-
-    public static class SetColorParams {
-        public Long id;
-        public String color;
-    }
-
 
 }
