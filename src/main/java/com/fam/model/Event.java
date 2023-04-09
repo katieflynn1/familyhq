@@ -28,24 +28,20 @@ public class Event {
     @Column
     public String notes;
 
-    @Column
-    public String color;
-
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false)
-    public User user;
+    @JoinColumn(name = "email", referencedColumnName = "email", nullable = false)
+    private User user;
 
     public Event() {
     }
 
-    public Event(String title, LocalDateTime start, LocalDateTime end, String category, boolean completed, String notes, String color, User user) {
+    public Event(String title, LocalDateTime start, LocalDateTime end, String category, boolean completed, String notes, User user) {
         this.title = title;
         this.start = start;
         this.end = end;
         this.category = category;
         this.completed = completed;
         this.notes = notes;
-        this.color = color;
         this.user = user;
     }
 
@@ -105,10 +101,6 @@ public class Event {
     public void setNotes(String notes) {
         this.notes = notes;
     }
-
-    public String getColor() { return color; }
-
-    public void setColor(String color) { this.color = color; }
 
     public User getUser() {
         return user;

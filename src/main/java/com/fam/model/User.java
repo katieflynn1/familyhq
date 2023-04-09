@@ -22,6 +22,7 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Objects;
 
 // USERS ENTITY CLASS
 @Entity
@@ -108,6 +109,10 @@ public class User implements UserDetails  {
         return !locked;
     }
 
+    public boolean isLocked() {
+        return locked;
+    }
+
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
@@ -117,6 +122,20 @@ public class User implements UserDetails  {
     public boolean isEnabled() {
         return enabled;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof User)) return false;
+        User user = (User) o;
+        return Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
+    }
+
 
     public Role getRole() { return role; }
 

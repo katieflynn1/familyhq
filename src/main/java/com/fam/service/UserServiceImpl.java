@@ -51,17 +51,29 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         System.out.println("existingUserEmail.isPresent() - "+existingUserEmail.isPresent()+"existingUserMobile.isPresent() - "+existingUserMobile.isPresent());
         return Arrays.asList(userExists, message);
     }
-
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(
-                ()-> new UsernameNotFoundException(
-                        String.format("USER_NOT_FOUND", email)
-                ));
+        Optional<User> optionalUser = userRepository.findByEmail(email);
+        if (optionalUser.isEmpty()) {
+            throw new UsernameNotFoundException("User not found");
+        }
+        User user = optionalUser.get();
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                user.isEnabled(),
+                true,
+                true,
+                !user.isLocked(),
+                user.getAuthorities());
     }
 
     @Override
     public User getUserById(Long userId) {
         return userRepository.findById(userId).orElse(null);
     }
+
+    @Override
+    public User getUserByEmail(String email) { return userRepository.findByEmail(email).orElse(null);}
 }

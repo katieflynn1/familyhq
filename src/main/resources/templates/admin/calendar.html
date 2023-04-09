@@ -40,46 +40,102 @@
     };
     nav.init();
 
-  const dp = new DayPilot.Calendar("dp");
-  dp.viewType = "Week";
-  dp.onTimeRangeSelected = function(args) {
-    var form = [
-        { name: "Title", id: "title", type: "text" },
-        { name: "Start Time", id: "start", type: "time" },
-        { name: "End Time", id: "end", type: "time" },
-        { name: "Category", id: "category", type: "select", options: [
-                { name: "Work", id: "work" },
-                { name: "Personal", id: "personal" },
-                { name: "Family", id: "family" },
-                { name: "Other", id: "other" }
-            ]},
+
+    const dp = new DayPilot.Calendar("dp");
+    dp.viewType = "Week";
+    dp.onTimeRangeSelected = function (args) {
+        var form = [
+            { name: "Title", id: "title", type: "text" },
+            { name: "Category", id: "category", type: "select", options: [
+            { name: "Work", id: "work" },
+            { name: "Personal", id: "personal" },
+            { name: "Family", id: "family" },
+            { name: "Other", id: "other" }
+        ]},
         { name: "Completed", id: "completed", type: "checkbox" },
         { name: "Notes", id: "notes", type: "textarea" },
-        { name: "User", id: "user", type: "text" },
-    ];
-    DayPilot.Modal.form(form).then(function(modal) {
-        dp.clearSelection();
-        if (!modal.result) { return; }
-        dp.events.add(new DayPilot.Event({
+        { name: "Email", id: "email", type: "text" },
+        ];
+        DayPilot.Modal.form(form).then(function (modal) {
+            dp.clearSelection();
+            if (!modal.result) { return; }
+            var params = {
             title: modal.result.title,
-            start: args.start,
-            end: args.end,
+            start: args.start.toString(),
+            end: args.end.toString(),
             category: modal.result.category,
             completed: modal.result.completed,
             notes: modal.result.notes,
-            user: modal.result.user
-        }));
+            email: modal.result.email
+            };
+            DayPilot.Http.ajax({
+                url: '/api/events/create',
+                data: params,
+                success: function (ajax) {
+                    var data = ajax.data;
+                    dp.events.add(new DayPilot.Event(data));
+                    dp.message("Event created");
+                }
+            });
+        });
+    };
+
+dp.onEventClick = function(args) {
+    var eventId = args.e.data.id;
+    DayPilot.Http.ajax({
+        url: "/api/events/" + eventId,
+        success: function(ajax) {
+            var event = ajax.data;
+            var form = [
+                { name: "Title", id: "title", type: "text", value: event.title },
+                { name: "Category", id: "category", type: "select", options: [
+                    { name: "Work", id: "Work" },
+                    { name: "Personal", id: "Personal" },
+                    { name: "Family", id: "Family" },
+                    { name: "Other", id: "Other" }
+                ], value: event.category },
+                { name: "Completed", id: "completed", type: "checkbox", checked: event.completed },
+                { name: "Notes", id: "notes", type: "textarea", value: event.notes },
+                { name: "Email", id: "email", type: "text", value: event.email }
+            ];
+
+            DayPilot.Modal.form(form).then(function(modal) {
+                if (!modal.result) { return; }
+                var params = {
+                    id: event.id,
+                    title: modal.result.title,
+                    category: modal.result.category,
+                    completed: modal.result.completed,
+                    notes: modal.result.notes,
+                    email: modal.result.email
+                };
+
+                DayPilot.Http.ajax({
+                    url: "/api/events/update",
+                    data: params,
+                    success: function(ajax) {
+                        var data = ajax.data;
+                        args.e.data.title = data.title;
+                        args.e.data.category = data.category;
+                        args.e.data.completed = data.completed;
+                        args.e.data.notes = data.notes;
+                        args.e.data.email = data.email;
+                        args.e.update();
+                        dp.message("Event updated");
+                    }
+                });
+            });
+        }
     });
 };
-
     dp.onEventMove = function (args) {
         var params = {
             id: args.e.id(),
-            start: args.newStart.getTime(),
-            end: args.newEnd.getTime()
+            start: args.newStart.toString(),
+            end: args.newEnd.toString()
         };
         DayPilot.Http.ajax({
-            url: '/api/events/' + args.e.id(),
+            url: '/api/events/move',
             data: params,
             success: function (ajax) {
                 dp.message("Event moved");
@@ -89,23 +145,25 @@
     dp.onEventResize = function (args) {
         var params = {
             id: args.e.id(),
-            start: args.newStart.getTime(),
-            end: args.newEnd.getTime()
+            start: args.newStart.toString(),
+            end: args.newEnd.toString()
         };
         DayPilot.Http.ajax({
-            url: '/api/events/' + args.e.id(),
+            url: '/api/events/move',
             data: params,
             success: function (ajax) {
                 dp.message("Event resized");
             }
         });
     };
+
       dp.onBeforeEventRender = function(args) {
-        args.data.barColor = args.data.category === 'Work' ? '#38761d' : args.data.category === 'Personal' ? '#0069d9' : args.data.category === 'Family' ? '#b31b1b' : '#555555';
-        args.data.areas = [
-            { top: 2, right: 2, icon: "icon-triangle-down", visibility: "Visible", action: "ContextMenu", style: "font-size: 12px; background-color: #f9f9f9; border: 1px solid #ccc; padding: 2px 2px 0px 2px; cursor:pointer;"}
-        ];
-    };
+      args.data.barColor = args.data.category === 'Work' ? '#0069d9' : args.data.category === 'Personal' ? '#38761d' : args.data.category === 'Family' ? '#b31b1b' : '#555555';
+      args.data.areas = [
+        { top: 2, right: 2, icon: "icon-triangle-down", visibility: "Visible", action: "ContextMenu", style: "font-size: 12px; background-color: #f9f9f9; border: 1px solid #ccc; padding: 2px 2px 0px 2px; cursor:pointer;"}
+    ];
+    args.data.html = "<div>" + args.data.title + "</div><div>" + args.data.category + "</div>";
+};
 
 
     dp.contextMenu = new DayPilot.Menu({
@@ -140,21 +198,39 @@
 
     dp.events.load("/api/events");
 
+    function updateColor(e, color) {
+    console.log("Event id: " + e.id()); // add this line
+    var params = {
+        id: e.id(),
+        color: color
+    };
+    DayPilot.Http.ajax({
+        url: '/api/events/setColor',
+        data: params,
+        success: function (ajax) {
+            e.data.color = color;
+            dp.events.update(e);
+            dp.message("Color updated");
+        }
+    });
+}
     function updateCategory(e, category) {
-        var params = {
-            id: e.id(),
-            category: category
-        };
-        DayPilot.Http.ajax({
-            url: '/api/events/setCategory',
-            data: params,
-            success: function (ajax) {
-                e.data.category = category;
-                dp.events.update(e);
-                dp.message("Category updated");
-            }
-        });
-    }
+    console.log("Event id: " + e.id()); // add this line
+    var params = {
+        id: e.id(),
+        category: category
+    };
+    DayPilot.Http.ajax({
+        url: '/api/events/setCategory',
+        data: params,
+        success: function (ajax) {
+            e.data.category = category;
+            e.data.barColor = category === 'Work' ? '#0069d9' : category === 'Personal' ? '#38761d' : category === 'Family' ? '#b31b1b' : '#555555';
+            dp.events.update(e);
+            dp.message("Category updated");
+        }
+    });
+}
 </script>
 </body>
 </html>
