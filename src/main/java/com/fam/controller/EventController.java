@@ -50,7 +50,7 @@ public class EventController {
             e.setCompleted(params.completed);
             e.setNotes(params.notes);
             if (params.email != null) {
-            e.setUser(userObj);
+            e .setUser(userObj);
         }
 
         er.save(e);

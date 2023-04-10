@@ -81,52 +81,56 @@
     };
 
 dp.onEventClick = function(args) {
-    var eventId = args.e.data.id;
-    DayPilot.Http.ajax({
-        url: "/api/events/" + eventId,
-        success: function(ajax) {
-            var event = ajax.data;
-            var form = [
-                { name: "Title", id: "title", type: "text", value: event.title },
-                { name: "Category", id: "category", type: "select", options: [
-                    { name: "Work", id: "Work" },
-                    { name: "Personal", id: "Personal" },
-                    { name: "Family", id: "Family" },
-                    { name: "Other", id: "Other" }
-                ], value: event.category },
-                { name: "Completed", id: "completed", type: "checkbox", checked: event.completed },
-                { name: "Notes", id: "notes", type: "textarea", value: event.notes },
-                { name: "Email", id: "email", type: "text", value: event.email }
-            ];
+  var eventId = args.e.data.id;
+  DayPilot.Http.ajax({
+    url: "/api/events/" + eventId,
+    success: function(ajax) {
+      var event = ajax.data;
+      var form = [
+        { name: "Title", id: "title", type: "text", value: event.title },
+        { name: "Category", id: "category", type: "select", options: [
+            { name: "Work", id: "Work" },
+            { name: "Personal", id: "Personal" },
+            { name: "Family", id: "Family" },
+            { name: "Other", id: "Other" }
+        ], value: event.category },
+        { name: "Completed", id: "completed", type: "checkbox", checked: event.completed },
+        { name: "Notes", id: "notes", type: "textarea", value: event.notes },
+        { name: "Email", id: "email", type: "text", value: event.email }
+      ];
 
-            DayPilot.Modal.form(form).then(function(modal) {
-                if (!modal.result) { return; }
-                var params = {
-                    id: event.id,
-                    title: modal.result.title,
-                    category: modal.result.category,
-                    completed: modal.result.completed,
-                    notes: modal.result.notes,
-                    email: modal.result.email
-                };
+      var options = {
+        autoFocus: true
+      };
 
-                DayPilot.Http.ajax({
-                    url: "/api/events/update",
-                    data: params,
-                    success: function(ajax) {
-                        var data = ajax.data;
-                        args.e.data.title = data.title;
-                        args.e.data.category = data.category;
-                        args.e.data.completed = data.completed;
-                        args.e.data.notes = data.notes;
-                        args.e.data.email = data.email;
-                        args.e.update();
-                        dp.message("Event updated");
-                    }
-                });
-            });
-        }
-    });
+      DayPilot.Modal.form(form, event, options).then(function(modal) {
+        if (!modal.result) { return; }
+        var params = {
+          id: event.id,
+          title: modal.result.title,
+          category: modal.result.category,
+          completed: modal.result.completed,
+          notes: modal.result.notes,
+          email: modal.result.email
+        };
+
+        DayPilot.Http.ajax({
+          url: "/api/events/update",
+          data: params,
+          success: function(ajax) {
+            var data = ajax.data;
+            args.e.data.title = data.title;
+            args.e.data.category = data.category;
+            args.e.data.completed = data.completed;
+            args.e.data.notes = data.notes;
+            args.e.data.email = data.email;
+            args.e.update();
+            dp.message("Event updated");
+          }
+        });
+      });
+    }
+  });
 };
     dp.onEventMove = function (args) {
         var params = {
