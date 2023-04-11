@@ -20,6 +20,7 @@ import com.fam.service.CountryServiceImpl;
 import com.fam.service.UserServiceImpl;
 import com.fam.service.VariantService;
 import com.fam.service.VariantServiceImpl;
+import com.fam.repository.UserRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -28,18 +29,15 @@ public class WebSecurityConfig {
 
     @Autowired
     private CustomLoginSucessHandler sucessHandler;
+
+    @Autowired
+    UserRepository userRepository;
     
     @Bean
     public CountryService countryService() {
     	return new CountryServiceImpl(null);
     }
-    
-    @Bean
-    public CountryServiceImpl countryServiceImpl() {
-		return new CountryServiceImpl(null);
-    	
-    }
-    
+
     @Bean
     public VariantService variantService() {
     	return new VariantServiceImpl(null);

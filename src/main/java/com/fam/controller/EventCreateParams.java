@@ -10,14 +10,14 @@ public class EventCreateParams {
     public Boolean completed;
     public String notes;
     public String user;
-    public String email; // modified field to use String instead of User
+    public String assignedUserEmail; // modified field to use String instead of User
 
     // default constructor
     public EventCreateParams() {
     }
 
     // parameterized constructor
-    public EventCreateParams(String title, LocalDateTime start, LocalDateTime end, String category, Boolean completed, String notes, String user, String email) {
+    public EventCreateParams(String title, LocalDateTime start, LocalDateTime end, String category, Boolean completed, String notes, String user, String assignedUserEmail) {
         this.title = title;
         this.start = start;
         this.end = end;
@@ -25,7 +25,7 @@ public class EventCreateParams {
         this.completed = completed;
         this.notes = notes;
         this.user = user;
-        this.email = email;
+        this.assignedUserEmail = assignedUserEmail;
     }
 
     // getters and setters
@@ -86,11 +86,11 @@ public class EventCreateParams {
         this.user = user;
     }
 
-    public String getEmail() {
-        return email;
+    public String getAssignedUserEmail() {
+        return assignedUserEmail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setAssignedUserEmail(String assignedUserEmail) {
+        this.assignedUserEmail = assignedUserEmail;
     }
 }

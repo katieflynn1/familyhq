@@ -8,14 +8,22 @@ import com.fam.service.UserService;
 import com.fam.service.UserServiceImpl;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
@@ -25,36 +33,41 @@ public class EventController {
     private final UserService userService;
 
     @Autowired
-    public EventController(EventRepository er,UserRepository ur, UserService userService) {
+    public EventController(EventRepository er,UserRepository ur, UserService userService ) {
         this.er = er;
         this.ur = ur;
         this.userService = userService;
     }
 
     @GetMapping("/api/events")
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    Iterable<Event> events(@RequestParam("start") @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime start, @RequestParam("end") @DateTimeFormat(iso = ISO.DATE_TIME) LocalDateTime end) {
-        return er.findBetween(start, end);
+    public List<Event> getEvents(@AuthenticationPrincipal UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        List<Event> events = er.findByCreatorEmailOrAssignedUserEmail(email);
+        return events;
     }
-
     @PostMapping("/api/events/create")
     @Transactional
     public Event createEvent(@RequestBody EventCreateParams params){
-
-            User userObj = userService.getUserByEmail(params.email);
-            Event e = new Event();
-            e.setTitle(params.title);
-            e.setStart(params.start);
-            e.setEnd(params.end);
-            e.setCategory(params.category);
-            e.setCompleted(params.completed);
-            e.setNotes(params.notes);
-            if (params.email != null) {
-            e .setUser(userObj);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            User user = ur.findByEmail(authentication.getName()).orElse(null);
+            if (user != null) {
+                Event e = new Event();
+                e.setTitle(params.title);
+                e.setStart(params.start);
+                e.setEnd(params.end);
+                e.setCategory(params.category);
+                e.setCompleted(params.completed);
+                e.setNotes(params.notes);
+                if (params.assignedUserEmail != null) {
+                    e.setAssignedUserEmail(params.assignedUserEmail);
+                }
+                e.setCreator(user);
+                er.save(e);
+                return e;
+            }
         }
-
-        er.save(e);
-        return e;
+        throw new IllegalArgumentException("creator must not be null");
     }
 
 
@@ -90,14 +103,16 @@ public class EventController {
     @PostMapping("/api/events/update")
     @Transactional
     public Event updateEvent(@RequestBody EventUpdateParams params) {
-        User userObj = userService.getUserByEmail(params.email);
+        User userObj = userService.getUserByEmail(params.assignedUserEmail);
         Event e = er.findById(params.id).orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + params.id));
         e.setTitle(params.title);
         e.setCategory(params.category);
         e.setCompleted(params.completed);
         e.setNotes(params.notes);
-        if (params.email != null) {
-            e.setUser(userObj);}
+        if (params.assignedUserEmail != null) {
+//            e.setAssignedUser(userObj);
+            e.setAssignedUserEmail(params.assignedUserEmail);
+        }
         er.save(e);
         return e;
     }
@@ -110,6 +125,10 @@ public class EventController {
         return er.findById(eventId).orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + eventId));
     }
 
+    @DeleteMapping("/api/events/{eventId}")
+    public void deleteEvent(@PathVariable Long eventId) {
+        er.deleteById(eventId);
+    }
     public static class SetCategoryParams {
         public Long id;
         public String category;
