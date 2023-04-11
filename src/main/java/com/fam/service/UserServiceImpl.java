@@ -3,7 +3,10 @@ package com.fam.service;
 import com.fam.model.User;
 import com.fam.repository.UserRepository;
 
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -76,4 +79,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public User getUserByEmail(String email) { return userRepository.findByEmail(email).orElse(null);}
+
+    @Override
+    public UserDetails getCurrentUser(HttpSession session) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null) {
+            return null;
+        }
+        return (UserDetails) authentication.getPrincipal();
+    }
 }

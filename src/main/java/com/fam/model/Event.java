@@ -1,51 +1,65 @@
 package com.fam.model;
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "user_event")
+@Table(name = "users_events")
 public class Event {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Long id;
+    private Long id;
 
     @Column(nullable = false)
-    public String title;
+    private String title;
 
     @Column(name = "start_time", nullable = false)
-    public LocalDateTime start;
+    private LocalDateTime start;
 
     @Column(name = "end_time", nullable = false)
-    public LocalDateTime end;
+    private LocalDateTime end;
 
     @Column(nullable = false)
-    public String category;
+    private String category;
 
     @Column(nullable = false)
     private boolean completed;
 
     @Column
-    public String notes;
+    private String notes;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "email", referencedColumnName = "email", nullable = false)
-    private User user;
+    @JoinColumn(name = "creator_id", referencedColumnName = "id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private User creator;
 
-    public Event() {
-    }
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "assigned_user_id", referencedColumnName = "id")
+//    private User assignedUser;
 
-    public Event(String title, LocalDateTime start, LocalDateTime end, String category, boolean completed, String notes, User user) {
+    @Column(nullable = false)
+    private String assignedUserEmail;
+
+    // getters and setters
+
+    public Event(Long id, String title, LocalDateTime start, LocalDateTime end, String category, boolean completed, String notes, User creator, User assignedUser, String assignedUserEmail) {
+        this.id = id;
         this.title = title;
         this.start = start;
         this.end = end;
         this.category = category;
         this.completed = completed;
         this.notes = notes;
-        this.user = user;
+        this.creator = creator;
+//        this.assignedUser = assignedUser;
+        this.assignedUserEmail = assignedUserEmail;
     }
 
-    // Getters and setters
+    public Event() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -102,11 +116,27 @@ public class Event {
         this.notes = notes;
     }
 
-    public User getUser() {
-        return user;
+    public User getCreator() {
+        return creator;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setCreator(User creator) {
+        this.creator = creator;
+    }
+
+//    public User getAssignedUser() {
+//        return assignedUser;
+//    }
+//
+//    public void setAssignedUser(User assignedUser) {
+//        this.assignedUser = assignedUser;
+//    }
+
+    public String getAssignedUserEmail() {
+        return assignedUserEmail;
+    }
+
+    public void setAssignedUserEmail(String assignedUserEmail) {
+        this.assignedUserEmail = assignedUserEmail;
     }
 }
