@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Assign Todo List</title>
+</head>
+<body>
+<h1>Assign Todo List</h1>
+<p>Todo List: <span th:text="${todoList.title}"></span></p>
+<form method="post" th:action="@{/todolists/{id}/assign(id=${todoList.id})}">
+    <label for="assignedUserEmail">Assigned User Email:</label>
+    <select id="assignedUserEmail" name="assignedUserEmail" required>
+        <option value="">Select an option</option>
+        <th:block th:each="user : ${users}">
+            <option th:value="${user.email}" th:text="${user.email}"></option>
+        </th:block>
+    </select><br><br>
+    <button type="submit">Assign</button>
+</form>
+</body>
+</html>

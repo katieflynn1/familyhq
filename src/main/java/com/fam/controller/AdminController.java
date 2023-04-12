@@ -17,9 +17,9 @@ public class AdminController {
         return "admin/calendar";
     }
 
-    @RequestMapping(value = {"/admin/todolist"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/admin/todolists"}, method = RequestMethod.GET)
     public String adminTodolist(){
-        return "admin/todolist";
+        return "admin/todolists/todolist";
     }
 
     @RequestMapping(value = {"/admin/instantmessage"}, method = RequestMethod.GET)

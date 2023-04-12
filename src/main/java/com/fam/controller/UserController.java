@@ -19,7 +19,7 @@ public class UserController {
 
     @RequestMapping(value = {"/user/todolist"}, method = RequestMethod.GET)
     public String userTodolist(){
-        return "user/todolist";
+        return "user/todolists/todolist";
     }
 
     @RequestMapping(value = {"/user/instantmessage"}, method = RequestMethod.GET)

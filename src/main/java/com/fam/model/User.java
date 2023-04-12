@@ -156,4 +156,6 @@ public class User implements UserDetails  {
     public void setMobile(String mobile) { this.mobile = mobile; }
 
     public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public Long getId() {return (long) id; }
 }
