@@ -4,30 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4851a049-8eb4-43d5-a35e-119d717b4ee8" name="Changes" comment="calendar update">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/budget.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/calendar.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/friendlist.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/instantmessage.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/mealplan.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/stats.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/todolist.html" afterDir="false" />
+    <list default="true" id="4851a049-8eb4-43d5-a35e-119d717b4ee8" name="Changes" comment="user dashboard update">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/TodoListController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Task.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/TodoList.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/TodoListRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/list.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/createForm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/editForm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/todolist.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/todolists/assignForm.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/todolists/createForm.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/config/CustomLoginSucessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/config/CustomLoginSucessHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/config/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/EventController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/EventCreateParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/EventCreateParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/EventUpdateParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/EventUpdateParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/AdminController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Role.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/service/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/calendar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/calendar.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/create-event.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/homepage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/user/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/todolist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/user/todolists/todolist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/todolist.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -63,13 +57,23 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "c-update",
-    "last_opened_file_path": "C:/Users/katie/Downloads/jsoup-1.15.4.jar",
+    "git-widget-placeholder": "user-dashboard",
+    "last_opened_file_path": "C:/Users/katie/GitHub/familyhq/src/main/resources/templates/user/todolists",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user\todolists" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\static\js" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user\todolists" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\admin\todolists" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="familyhqApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.fam.familyhqApplication" />
@@ -138,7 +142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681140190903</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="user dashboard update">
+      <created>1681183320167</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1681183320167</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -168,6 +179,7 @@
     <MESSAGE value="finished admin dashboard" />
     <MESSAGE value="dev on calendar" />
     <MESSAGE value="calendar update" />
-    <option name="LAST_COMMIT_MESSAGE" value="calendar update" />
+    <MESSAGE value="user dashboard update" />
+    <option name="LAST_COMMIT_MESSAGE" value="user dashboard update" />
   </component>
 </project>
