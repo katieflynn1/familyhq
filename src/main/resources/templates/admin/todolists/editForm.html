@@ -10,7 +10,7 @@
 <div class="container-fluid py-4">
     <h1>Edit Todo List</h1>
     <p>Todo List: <span th:text="${todoList.title}"></span></p>
-    <form id="edit-form" method="post" th:action="@{/admin/todolists/edit/{id}(id=${todoList.id})}">
+    <form th:action="@{/admin/todolists/edit}" th:object="${todoList}" method="post">
         <div class="form-group row">
             <label for="title" class="col-sm-2 col-form-label">Title:</label>
             <div class="col-sm-10">
@@ -23,7 +23,7 @@
                 <select id="assignedUserEmail" name="assignedUserEmail" class="form-control" required>
                     <option value="">Select an option</option>
                     <th:block th:each="user : ${users}">
-                        <option th:value="${user.email}" th:text="${user.email}" th:selected="${user.email == todoList.assignedUserEmail}"></option>
+                        <option th:value="${user.email}" th:text="${user.email}" th:selected="${user.email == todoList.assignedUserEmail}" name="assignedUserEmail"></option>
                     </th:block>
                 </select>
             </div>
@@ -40,30 +40,10 @@
         <div><input type="hidden" name="id" th:value="${todoList.id}" /></div>
         <div class="form-group row">
             <div class="col-sm-10">
-                <button id="save-changes-btn" type="button" class="btn btn-primary">Save Changes</button>
+                <p><input type="submit" value="Save Changes"/></p>
             </div>
         </div>
     </form>
 </div>
-
-<script th:inline="javascript">
-    $(function() {
-        // When the save button is clicked, submit the form via AJAX
-        $('#save-changes-btn').click(function() {
-            var formData = $('#edit-form').serialize();
-            $.ajax({
-                url: $('#edit-form').attr('action'),
-                type: 'POST',
-                data: formData,
-                success: function(response) {
-                    window.location.href = response.redirectUrl;
-                },
-                error: function(xhr, status, error) {
-                    console.log('Error submitting form: ' + error);
-                }
-            });
-        });
-    });
-</script>
 </body>
 </html>
