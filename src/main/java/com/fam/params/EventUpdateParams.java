@@ -1,4 +1,4 @@
-package com.fam.controller;
+package com.fam.params;
 
 import java.time.LocalDateTime;
 

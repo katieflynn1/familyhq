@@ -2,18 +2,15 @@ package com.fam.controller;
 
 import com.fam.model.Event;
 import com.fam.model.User;
+import com.fam.params.EventCreateParams;
+import com.fam.params.EventUpdateParams;
 import com.fam.repository.EventRepository;
 import com.fam.repository.UserRepository;
 import com.fam.service.UserService;
-import com.fam.service.UserServiceImpl;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -23,8 +20,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Logger;
 
 @RestController
 public class EventController {
@@ -103,14 +98,12 @@ public class EventController {
     @PostMapping("/api/events/update")
     @Transactional
     public Event updateEvent(@RequestBody EventUpdateParams params) {
-        User userObj = userService.getUserByEmail(params.assignedUserEmail);
         Event e = er.findById(params.id).orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + params.id));
         e.setTitle(params.title);
         e.setCategory(params.category);
         e.setCompleted(params.completed);
         e.setNotes(params.notes);
         if (params.assignedUserEmail != null) {
-//            e.setAssignedUser(userObj);
             e.setAssignedUserEmail(params.assignedUserEmail);
         }
         er.save(e);

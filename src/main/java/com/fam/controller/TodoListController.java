@@ -5,6 +5,7 @@ import com.fam.model.TodoList;
 import com.fam.model.User;
 import com.fam.repository.TodoListRepository;
 import com.fam.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +21,7 @@ import java.util.Optional;
 public class TodoListController {
 
     @Autowired
-    private TodoListRepository todoListRepository;
+    private TodoListRepository tr;
 
     @Autowired
     private UserRepository userRepository;
@@ -29,7 +30,7 @@ public class TodoListController {
     @ResponseBody
     public List<TodoList> list(Model model, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
-        List<TodoList> todoLists = todoListRepository.findByCreatorIdOrAssignedUserEmail(user.getId(), user.getEmail());
+        List<TodoList> todoLists = tr.findByCreatorIdOrAssignedUserEmail(user.getId(), user.getEmail());
         return todoLists;
     }
 
@@ -44,26 +45,28 @@ public class TodoListController {
         Optional<User> creatorOptional = userRepository.findByEmail(principal.getName());
         User creator = creatorOptional.orElseThrow(() -> new RuntimeException("User not found")); // or handle the empty case differently
         todoList.setCreatorId(creator.getId());
-        todoListRepository.save(todoList);
+        tr.save(todoList);
         return "redirect:/admin/todolists/todolist";
     }
 
     @GetMapping("/admin/todolists/edit/{id}")
     public String editForm(@PathVariable("id") Long id, Model model) {
-        TodoList todoList = todoListRepository.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
+        TodoList todoList = tr.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
         model.addAttribute("todoList", todoList);
         List<User> users = userRepository.findAll();
         model.addAttribute("users", users);
         return "admin/todolists/editForm";
     }
-
-    @PostMapping(value = "/admin/todolists/edit/{id}")
-    public String edit(@PathVariable("id") Long id, @ModelAttribute TodoList todoList) {
-        TodoList existingTodoList = todoListRepository.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
-        existingTodoList.setAssignedUserEmail(todoList.getAssignedUserEmail());
-        existingTodoList.setCompleted(todoList.isCompleted());
-        todoListRepository.save(existingTodoList);
-        return "redirect:/admin/todolists/";
+    @PostMapping("/admin/todolists/edit")
+    @Transactional
+    public String edit(@ModelAttribute TodoList todoList) {
+        TodoList t = tr.findById(todoList.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + todoList.getId()));
+        t.setTitle(todoList.getTitle());
+        t.setCompleted(todoList.isCompleted());
+        if (todoList.getAssignedUserEmail() != null) {
+            t.setAssignedUserEmail(todoList.getAssignedUserEmail());
+        }
+        tr.save(t);
+        return "redirect:/admin/todolists";
     }
-
 }
