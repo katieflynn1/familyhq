@@ -41,16 +41,16 @@ public class TodoListController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute("todoList") TodoList todoList, Principal principal) {
+    public String createTodoList(@ModelAttribute("todoList") TodoList todoList, Principal principal) {
         Optional<User> creatorOptional = userRepository.findByEmail(principal.getName());
         User creator = creatorOptional.orElseThrow(() -> new RuntimeException("User not found")); // or handle the empty case differently
         todoList.setCreatorId(creator.getId());
         tr.save(todoList);
-        return "redirect:/admin/todolists/todolist";
+        return "redirect:/admin/todolists";
     }
 
     @GetMapping("/admin/todolists/edit/{id}")
-    public String editForm(@PathVariable("id") Long id, Model model) {
+    public String editTodoListForm(@PathVariable("id") Long id, Model model) {
         TodoList todoList = tr.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
         model.addAttribute("todoList", todoList);
         List<User> users = userRepository.findAll();
@@ -59,7 +59,7 @@ public class TodoListController {
     }
     @PostMapping("/admin/todolists/edit")
     @Transactional
-    public String edit(@ModelAttribute TodoList todoList) {
+    public String editTodoList(@ModelAttribute TodoList todoList) {
         TodoList t = tr.findById(todoList.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + todoList.getId()));
         t.setTitle(todoList.getTitle());
         t.setCompleted(todoList.isCompleted());
@@ -67,6 +67,14 @@ public class TodoListController {
             t.setAssignedUserEmail(todoList.getAssignedUserEmail());
         }
         tr.save(t);
+        return "redirect:/admin/todolists";
+    }
+
+    @RequestMapping(value = "/admin/todolists/delete/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public String deleteTodoList(@PathVariable("id") Long id, Model model) {
+        TodoList todoList = tr.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
+        tr.deleteById(id);
         return "redirect:/admin/todolists";
     }
 }
