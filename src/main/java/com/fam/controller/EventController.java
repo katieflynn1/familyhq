@@ -120,6 +120,7 @@ public class EventController {
 
     @DeleteMapping("/api/events/{eventId}")
     public void deleteEvent(@PathVariable Long eventId) {
+
         er.deleteById(eventId);
     }
     public static class SetCategoryParams {

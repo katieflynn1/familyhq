@@ -56,7 +56,7 @@
                             $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Assigned To: ' + assigned).appendTo(cardBody);
                             $('<p>').addClass('card-text').text('Completed: ' + completed).appendTo(cardBody);
                             $('<a>').addClass('card-link').attr('href', '/admin/todolists/edit/' + todoList.id).text('Edit').appendTo(cardBody);
-                            $('<a>').addClass('card-link delete-btn').attr('data-id', todoList.id).text('Delete').appendTo(cardBody);
+                            $('<a>').addClass('card-link delete-btn').attr('href', '/admin/todolists/delete/' + todoList.id).text('Delete').appendTo(cardBody);
 
                             card.appendTo('#todo-list');
                         },
@@ -72,17 +72,17 @@
         });
     }
 
-    // Call the loadTodoLists function on page load
+   // Call the loadTodoLists function on page load
     loadTodoLists();
 
     // Add event listener for delete button clicks
     $('body').on('click', '.delete-btn', function(event) {
-        event.preventDefault();
-        var id = $(this).data('id');
-        deleteTodoList(id);
-    });
-
-    // Function to handle deleting a todo list
+    event.preventDefault();
+    var url = $(this).attr('href');
+    var id = url.split('/').pop();
+    deleteTodoList(id);
+});
+// Function to handle deleting a todo list
     function deleteTodoList(id) {
         $.ajax({
             url: '/admin/todolists/delete/' + id,
