@@ -8,9 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 public class AdminController {
 
     @RequestMapping(value = {"/admin/dashboard"}, method = RequestMethod.GET)
-    public String adminDasboard(){
-        return "admin/dashboard";
-    }
+    public String adminDasboard(){ return "admin/dashboard";}
 
     @RequestMapping(value = {"/admin/calendar"}, method = RequestMethod.GET)
     public String adminCalendar(){

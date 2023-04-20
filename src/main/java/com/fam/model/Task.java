@@ -3,7 +3,8 @@ package com.fam.model;
 import jakarta.persistence.*;
 @Entity
 @Table(name = "tasks")
-public class Task {
+public class Task{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,16 +15,18 @@ public class Task {
     @Column(name = "completed", nullable = false)
     private boolean completed;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_list_id", nullable = false)
-    private TodoList userTodoList;
+    private TodoList todoList;
+
+    // constructors, getters, and setters
 
     public Task() {}
 
-    public Task(String description, boolean completed, TodoList userTodoList) {
+    public Task(String description, boolean completed, TodoList todoList) {
         this.description = description;
         this.completed = completed;
-        this.userTodoList = userTodoList;
+        this.todoList = todoList;
     }
 
     // Getters and setters
@@ -51,11 +54,11 @@ public class Task {
         this.completed = completed;
     }
 
-    public TodoList getUserTodoList() {
-        return userTodoList;
+    public TodoList getTodoList() {
+        return todoList;
     }
 
-    public void setUserTodoList(TodoList userTodoList) {
-        this.userTodoList = userTodoList;
+    public void setTodoList(TodoList todoList) {
+        this.todoList = todoList;
     }
 }
