@@ -15,11 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.fam.service.CountryService;
-import com.fam.service.CountryServiceImpl;
 import com.fam.service.UserServiceImpl;
-import com.fam.service.VariantService;
-import com.fam.service.VariantServiceImpl;
 import com.fam.repository.UserRepository;
 
 @Configuration

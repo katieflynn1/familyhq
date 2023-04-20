@@ -27,75 +27,80 @@
         margin-right: 5px;
     }
 </style>
-
 <script th:inline="javascript">
-       $(document).ready(function() {
-    // Function to load the todo lists
-    function loadTodoLists() {
-        $.ajax({
-            url: '/lists',
-            type: 'GET',
-            success: function(todoLists) {
-                // Remove any existing items from the list
-                $('#todo-list').empty();
+    $(document).ready(function() {
+        // Function to load the todo lists
+        function loadTodoLists() {
+            $.ajax({
+                url: '/lists',
+                type: 'GET',
+                success: function(todoLists) {
+                    // Remove any existing items from the list
+                    $('#todo-list').empty();
 
-                // Add each todo list to the DOM
-                $.each(todoLists, function(index, todoList) {
-                    var assigned = todoList.assignedUserEmail ? todoList.assignedUserEmail : '-';
-                    var completed = todoList.completed ? 'Yes' : 'No';
+                    // Add each todo list to the DOM
+                    $.each(todoLists, function(index, todoList) {
+                        var assigned = todoList.assignedUserEmail ? todoList.assignedUserEmail : '-';
+                        var completed = todoList.completed ? 'Yes' : 'No';
 
-                    // Make a request to retrieve the creator's details
-                    $.ajax({
-                        url: '/users/' + todoList.creatorId,
-                        type: 'GET',
-                        success: function(creator) {
-                            var card = $('<div>').addClass('card');
-                            var cardBody = $('<div>').addClass('card-body').appendTo(card);
-                            $('<h5>').addClass('card-title').text(todoList.title).appendTo(cardBody);
-                            $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Creator: ' + creator.email).appendTo(cardBody);
-                            $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Assigned To: ' + assigned).appendTo(cardBody);
-                            $('<p>').addClass('card-text').text('Completed: ' + completed).appendTo(cardBody);
-                            $('<a>').addClass('card-link').attr('href', '/admin/todolists/edit/' + todoList.id).text('Edit').appendTo(cardBody);
-                            $('<a>').addClass('card-link delete-btn').attr('href', '/admin/todolists/delete/' + todoList.id).text('Delete').appendTo(cardBody);
+                        // Make a request to retrieve the creator's details
+                        $.ajax({
+                            url: '/users/' + todoList.creatorId,
+                            type: 'GET',
+                            success: function(creator) {
+                                var card = $('<div>').addClass('card');
+                                var cardBody = $('<div>').addClass('card-body').appendTo(card);
+                                $('<h5>').addClass('card-title').text(todoList.title).appendTo(cardBody);
+                                $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Creator: ' + creator.email).appendTo(cardBody);
+                                $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Assigned To: ' + assigned).appendTo(cardBody);
+                                $('<p>').addClass('card-text').text('Completed: ' + completed).appendTo(cardBody);
+                                $('<a>').addClass('card-link').attr('href', '/admin/todolists/edit/' + todoList.id).text('Edit').appendTo(cardBody);
+                                $('<a>').addClass('card-link delete-btn').attr('href', '/admin/todolists/delete/' + todoList.id).text('Delete').appendTo(cardBody);
 
-                            card.appendTo('#todo-list');
-                        },
-                        error: function(xhr, status, error) {
-                            console.log("Error loading creator details: " + error);
-                        }
+                                // Add click event listener to card body
+                                cardBody.click(function() {
+                                    window.location.href = '/admin/todolists/taskPage/' + todoList.id;
+                                });
+
+                                card.appendTo('#todo-list');
+                            },
+                            error: function(xhr, status, error) {
+                                console.log("Error loading creator details: " + error);
+                            }
+                        });
                     });
-                });
-            },
-            error: function(xhr, status, error) {
-                console.log("Error loading todo lists: " + error);
-            }
-        });
-    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error loading todo lists: " + error);
+                }
+            });
+        }
 
-   // Call the loadTodoLists function on page load
-    loadTodoLists();
+        // Call the loadTodoLists function on page load
+        loadTodoLists();
 
-    // Add event listener for delete button clicks
-    $('body').on('click', '.delete-btn', function(event) {
-    event.preventDefault();
-    var url = $(this).attr('href');
-    var id = url.split('/').pop();
-    deleteTodoList(id);
-});
-// Function to handle deleting a todo list
-    function deleteTodoList(id) {
-        $.ajax({
-            url: '/admin/todolists/delete/' + id,
-            type: 'DELETE',
-            success: function(result) {
-                loadTodoLists();
-            },
-            error: function(xhr, status, error) {
-                console.log("Error deleting todo list: " + error);
-            }
+        // Add event listener for delete button clicks
+        $('body').on('click', '.delete-btn', function(event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            var id = url.split('/').pop();
+            deleteTodoList(id);
         });
-    }
-});
+
+        // Function to handle deleting a todo list
+        function deleteTodoList(id) {
+            $.ajax({
+                url: '/admin/todolists/delete/' + id,
+                type: 'DELETE',
+                success: function(result) {
+                    loadTodoLists();
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error deleting todo list: " + error);
+                }
+            });
+        }
+    });
 </script>
 </body>
 </html>
