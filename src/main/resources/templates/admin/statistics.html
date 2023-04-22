@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Google Charts library -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <title>User Statistics</title>
+</head>
+<body>
+<h1>User Statistics</h1>
+<!-- Add three buttons to display the statistics -->
+<button onclick="displayEventStats()">Event Statistics</button>
+<button onclick="displayEventCategoryStats()">Event Category Statistics</button>
+<button onclick="displayTodoListStats()">TodoList Statistics</button>
+<button onclick="displayTaskStats()">Task Statistics</button>
+
+
+<div id="chart-container" style="width: 800px; height: 600px;"></div>
+<!-- Pass eventData and eventLabels to the JavaScript chart function -->
+<script th:inline="javascript">
+    function displayEventStats() {
+        $.get("/admin/statistics/event", function(data) {
+            var eventData = data.chartData;
+            var eventLabels = data.chartLabels;
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(function() {
+                drawChart(eventData, eventLabels, "Event Completion Ratio");
+            });
+            $("#chart-container").html("");
+        });
+    }
+
+    function displayEventCategoryStats() {
+  $.get("/admin/statistics/eventByCategory", function(data) {
+    var eventData = data.chartData;
+    var chartLabels = data.chartLabels;
+    var chartTitle = "Event Categories";
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(function() {
+      drawChart(eventData, chartLabels, chartTitle);
+    });
+    $("#chart-container").html("");
+  });
+}
+
+    function displayTodoListStats() {
+        $.get("/admin/statistics/todoList", function(data) {
+            var todoListData = data.chartData;
+            var todoListLabels = data.chartLabels;
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(function() {
+                drawChart(todoListData, todoListLabels, "TodoList Completion Ratio");
+            });
+            $("#chart-container").html("");
+        });
+    }
+
+    function displayTaskStats() {
+        $.get("/admin/statistics/task", function(data) {
+            var taskData = data.chartData;
+            var taskLabels = data.chartLabels;
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(function() {
+                drawChart(taskData, taskLabels, "Task Completion Ratio");
+            });
+            $("#chart-container").html("");
+        });
+    }
+
+    function drawChart(chartData, chartTitle) {
+    var data = google.visualization.arrayToDataTable([
+        ['Event Category', 'Number of Events'],
+        ...chartData.map(categoryData => [categoryData[0], categoryData[1]])
+    ]);
+
+    var options = {
+        title: chartTitle,
+        colors: ['#F6B4BF', '#B2E4F0', '#F0E4B2', '#B2F0D9'],
+        is3D: true,
+    };
+
+    var chart = new google.visualization.PieChart(document.getElementById('chart-container'));
+    chart.draw(data, options);
+}
+</script>
+</body>
+</html>

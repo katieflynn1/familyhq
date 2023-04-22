@@ -2,6 +2,7 @@ package com.fam.repository;
 
 import com.fam.model.Event;
 import com.fam.model.TodoList;
+import com.fam.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -19,4 +20,8 @@ public interface TodoListRepository extends CrudRepository<TodoList, Long> {
     List<TodoList> findByCreatorIdOrAssignedUserEmail(@Param("id") Long creatorId, @Param("email") String email);
     TodoList getOne(Long id);
     Optional<TodoList> findById(Long id);
+
+    long countByCreatorId(Long id);
+
+    long countByCreatorIdAndCompleted(Long creatorId, boolean completed);
 }

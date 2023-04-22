@@ -30,22 +30,6 @@ public class WebSecurityConfig {
     UserRepository userRepository;
     
     @Bean
-    public CountryService countryService() {
-    	return new CountryServiceImpl(null);
-    }
-
-    @Bean
-    public VariantService variantService() {
-    	return new VariantServiceImpl(null);
-    }
-    
-    @Bean
-    public VariantServiceImpl variantServiceImpl() {
-		return new VariantServiceImpl(null);
-    	
-    }
-    
-    @Bean
     public UserDetailsService userDetailsService() {
         return new UserServiceImpl();
     }
@@ -102,9 +86,9 @@ public class WebSecurityConfig {
                 return httpSecurity.build();
     }
 
-    @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
-    }
+//    @Bean
+//    public WebSecurityCustomizer webSecurityCustomizer() {
+//        return (web) -> web.ignoring().requestMatchers("/images/**", "/js/**", "/webjars/**");
+//    }
 
 }

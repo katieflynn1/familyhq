@@ -4,14 +4,40 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4851a049-8eb4-43d5-a35e-119d717b4ee8" name="Changes" comment="to do list function update-1">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/TaskRepository.java" afterDir="false" />
+    <list default="true" id="4851a049-8eb4-43d5-a35e-119d717b4ee8" name="Changes" comment="to do list function update-2">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/FamilyController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/StatisticsController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Family.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/FamilyRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/FamilyRequestStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/FamilyStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Statistics.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/FamilyRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/FamilyRequestDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/StatisticsRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/Chart.min.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/custom.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/FamilyRequestList.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/family.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/statistics.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/FamilyRequestList.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/family.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/config/WebSecurityConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/TodoListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/TodoListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Event.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/taskPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/taskPage.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/todolist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/todolist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/TaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/TaskRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/TodoListRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/TodoListRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/friendlist.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/stats.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/friendlist.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,6 +53,9 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/../../../../Program Files/Java/jdk-17/lib/src.zip!/java.base/java/lang/Long.java" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -47,8 +76,8 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;todo-list-dev&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/katie/GitHub/familyhq/src/main/resources/templates/user/todolists&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;todolist-dev2&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/katie/GitHub/familyhq/src/main/resources/static/js&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;
@@ -56,10 +85,13 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user\todolists" />
       <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\static\js" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user\todolists" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\admin" />
       <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user\todolists" />
       <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\admin\todolists" />
     </key>
@@ -160,7 +192,14 @@
       <option name="project" value="LOCAL" />
       <updated>1681854954465</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="to do list function update-2">
+      <created>1682032861878</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1682032861880</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -193,6 +232,7 @@
     <MESSAGE value="user dashboard update" />
     <MESSAGE value="to do list function update" />
     <MESSAGE value="to do list function update-1" />
-    <option name="LAST_COMMIT_MESSAGE" value="to do list function update-1" />
+    <MESSAGE value="to do list function update-2" />
+    <option name="LAST_COMMIT_MESSAGE" value="to do list function update-2" />
   </component>
 </project>

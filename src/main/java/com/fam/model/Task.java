@@ -19,8 +19,6 @@ public class Task{
     @JoinColumn(name = "todo_list_id", nullable = false)
     private TodoList todoList;
 
-    // constructors, getters, and setters
-
     public Task() {}
 
     public Task(String description, boolean completed, TodoList todoList) {
