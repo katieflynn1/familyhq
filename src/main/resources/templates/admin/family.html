@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Family List</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+<h1>Family List</h1>
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Status</th>
+        <th>Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="family : ${families}">
+        <td th:text="${family.getSender().getName()}"></td>
+        <td th:text="${family.getSender().getEmail()}"></td>
+        <td th:text="${family.getFamilyRole()}"></td>
+        <td th:text="${family.getStatus()}"></td>
+        <td>
+            <form th:if="${family.getStatus() == 'PENDING'}" method="post" th:action="@{/family/accept}">
+                <input type="hidden" name="familyId" th:value="${family.getId()}"/>
+                <button type="submit">Approve</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+<hr/>
+
+<h2>Add Family Member</h2>
+
+<form method="post" th:action="@{/family/send}">
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required="required"/>
+    </div>
+    <div>
+        <label for="familyRole">Family Role:</label>
+        <input type="text" id="familyRole" name="familyRole"/>
+    </div>
+    <div>
+        <button type="submit">Send Request</button>
+    </div>
+</form>
+</body>
+</html>

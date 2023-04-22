@@ -35,10 +35,6 @@ public class Event {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User creator;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "assigned_user_id", referencedColumnName = "id")
-//    private User assignedUser;
-
     @Column(nullable = false)
     private String assignedUserEmail;
 
@@ -53,7 +49,6 @@ public class Event {
         this.completed = completed;
         this.notes = notes;
         this.creator = creator;
-//        this.assignedUser = assignedUser;
         this.assignedUserEmail = assignedUserEmail;
     }
 

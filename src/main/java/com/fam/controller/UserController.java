@@ -44,6 +44,6 @@ public class UserController {
 
     @RequestMapping(value = {"/user/friendlist"}, method = RequestMethod.GET)
     public String userFriendList(){
-        return "user/friendlist";
+        return "user/friendlist/friendlist";
     }
 }

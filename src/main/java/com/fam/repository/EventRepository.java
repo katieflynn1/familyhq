@@ -22,4 +22,11 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     @Query("select e from Event e where e.assignedUserEmail = :email or e.creator.email = :email")
     List<Event> findByCreatorEmailOrAssignedUserEmail(@Param("email") String email);
 
+    long countByCreator(User currentUser);
+
+    long countByCreatorAndCompleted(User currentUser, boolean completed);
+
+    long countByCompleted(boolean completed);
+
+    List<Event> findByCreator(User currentUser);
 }
