@@ -32,10 +32,10 @@ public class CustomLoginSucessHandler extends SimpleUrlAuthenticationSuccessHand
         for(GrantedAuthority a : authorities){
             roles.add(a.getAuthority());
         }
-        if(roles.contains("ADMIN")){
-            url = "/admin/dashboard";
-        }else if(roles.contains("USER")) {
-            url = "/user/dashboard";
+        if(roles.contains("PARENT")){
+            url = "/parent/dashboard";
+        }else if(roles.contains("CHILD")) {
+            url = "/child/dashboard";
         }
         return url;
     }

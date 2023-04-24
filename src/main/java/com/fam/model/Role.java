@@ -1,8 +1,8 @@
 package com.fam.model;
 
 public enum Role {
-    USER("User"),
-    ADMIN("Admin");
+    CHILD("Child"),
+    PARENT("Parent");
 
     private final String value;
 

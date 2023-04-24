@@ -74,17 +74,8 @@ public class User implements UserDetails  {
         return Collections.singletonList(authority);
     }
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_family",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "family_id"))
-    private Set<User> familyMembers = new HashSet<>();
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_friends",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "friend_id"))
-    private Set<User> friends = new HashSet<>();
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members")
+    private Set<FamilyGroup> familyGroups = new HashSet<>();
 
     @Override
     public String getPassword() {
@@ -161,19 +152,12 @@ public class User implements UserDetails  {
 
     public Long getId() {return (long) id; }
 
-    public Set<User> getFamilyMembers() {
-        return familyMembers;
+    public Set<FamilyGroup> getFamilyGroups() {
+        return familyGroups;
     }
 
-    public void setFamilyMembers(Set<User> familyMembers) {
-        this.familyMembers = familyMembers;
+    public void setFamilyGroups(Set<FamilyGroup> familyGroups) {
+        this.familyGroups = familyGroups;
     }
 
-    public Set<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(Set<User> friends) {
-        this.friends = friends;
-    }
 }

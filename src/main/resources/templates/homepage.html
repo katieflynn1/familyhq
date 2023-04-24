@@ -14,10 +14,10 @@
 <!-- NAVBAR-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
     <div class="container">
-        <a class="navbar-brand" href="index.html">Family HQ</a>
+        <a class="navbar-brand" th:href="@{|/|}" th:text="'Family HQ'"></a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
-                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
@@ -31,15 +31,16 @@
                        sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{|/user/dashboard|}" th:text="'User Dashboard'"
-                       sec:authorize="hasAuthority('USER')"></a>
+                    <a class="nav-link" th:href="@{|/child/dashboard|}" th:text="'Child Dashboard'"
+                       sec:authorize="hasAuthority('CHILD')"></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{|/admin/dashboard|}" th:text="'Admin Dashboard'"
-                       sec:authorize="hasAuthority('ADMIN')"></a>
+                    <a class="nav-link" th:href="@{|/parent/dashboard|}" th:text="'Parent Dashboard'"
+                       sec:authorize="hasAuthority('PARENT')"></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/logout}" th:text="'Log out'" sec:authorize="isAuthenticated()"></a>
+                    <a class="nav-link" th:href="@{/logout}" th:text="'Log out'"
+                       sec:authorize="isAuthenticated()"></a>
                 </li>
 
                 <a class="nav-link" sec:authentication="name" sec:authorize="isAuthenticated()"></a>
@@ -65,8 +66,8 @@
                 <div class="col-12 text-center text-white">
                     <h1 class="fw-heavy">FAMILY HQ</h1>
                     <p class="lead" sec:authorize="hasRole('ROLE_ANONYMOUS')">Family Organisation streamlined.</p>
-                    <p class="lead" sec:authorize="hasRole('USER')">Hi User, welcome back to Family HQ!</p>
-                    <p class="lead" sec:authorize="hasRole('ADMIN')">Hi Admin, welcome back to Family HQ!</p>
+                    <p class="lead" sec:authorize="hasRole('CHILD')">Hi User, welcome back to Family HQ!</p>
+                    <p class="lead" sec:authorize="hasRole('PARENT')">Hi Parent, welcome back to Family HQ!</p>
                     <p class="lead" sec:authorize="isAuthenticated()">Welcome back to Family HQ!</p>
                 </div>
             </div>

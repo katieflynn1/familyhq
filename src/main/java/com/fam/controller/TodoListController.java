@@ -6,6 +6,7 @@ import com.fam.model.User;
 import com.fam.repository.TaskRepository;
 import com.fam.repository.TodoListRepository;
 import com.fam.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,7 @@ public class TodoListController {
     private UserRepository userRepository;
 
     // GET ALL TODO LISTS
-    @GetMapping("/lists")
+    @GetMapping("/api/lists")
     @ResponseBody
     public List<TodoList> list(Model model, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
@@ -36,34 +37,34 @@ public class TodoListController {
     }
 
     // CREATE NEW TODOLIST FORM
-    @GetMapping("/createForm")
+    @GetMapping("/api/createForm")
     public String createForm(Model model) {
         model.addAttribute("todoList", new TodoList());
-        return "admin/todolists/createForm";
+        return "todolists/createForm";
     }
 
     // CREATE NEW TODO LIST
-    @PostMapping("/create")
+    @PostMapping("/api/create")
     public String createTodoList(@ModelAttribute("todoList") TodoList todoList, Principal principal) {
         Optional<User> creatorOptional = userRepository.findByEmail(principal.getName());
         User creator = creatorOptional.orElseThrow(() -> new RuntimeException("User not found")); // or handle the empty case differently
         todoList.setCreatorId(creator.getId());
         tr.save(todoList);
-        return "redirect:/admin/todolists";
+        return "redirect:/todolists";
     }
 
     // EDIT TODO LIST FORM
-    @GetMapping("/admin/todolists/edit/{id}")
+    @GetMapping("/api/todolists/edit/{id}")
     public String editTodoListForm(@PathVariable("id") Long id, Model model) {
         TodoList todoList = tr.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
         model.addAttribute("todoList", todoList);
         List<User> users = userRepository.findAll();
         model.addAttribute("users", users);
-        return "admin/todolists/editForm";
+        return "todolists/editForm";
     }
 
     // EDIT TODO LIST
-    @PostMapping("/admin/todolists/edit")
+    @PostMapping("/api/todolists/edit")
     @Transactional
     public String editTodoList(@ModelAttribute TodoList todoList) {
         TodoList t = tr.findById(todoList.getId()).orElseThrow(() -> new IllegalArgumentException("Invalid event id: " + todoList.getId()));
@@ -73,32 +74,32 @@ public class TodoListController {
             t.setAssignedUserEmail(todoList.getAssignedUserEmail());
         }
         tr.save(t);
-        return "redirect:/admin/todolists";
+        return "redirect:/todolists";
     }
 
     // DELETE TODO LIST
-    @RequestMapping(value = "/admin/todolists/delete/{id}", method = RequestMethod.DELETE)
-    @ResponseBody
-    public String deleteTodoList(@PathVariable("id") Long id, Model model) {
+    @RequestMapping(value = "/api/todolists/delete/{id}", method = RequestMethod.DELETE)
+    public String deleteTodoList(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
         TodoList todoList = tr.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
         tr.deleteById(id);
-        return "redirect:/admin/todolists";
+        //String referer = request.getHeader("Referer");
+        return null;
     }
 
     // TASK METHODS
     // GET TASKS FOR THE TODO LIST
-    @GetMapping("/admin/todolists/taskPage/{id}")
+    @GetMapping("/api/todolists/taskPage/{id}")
     public String getTasksForTodoList(@PathVariable("id") Long id, Model model) {
         TodoList todoList = tr.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
         List<Task> tasks = taskRepository.findByTodoList(todoList);
         model.addAttribute("tasks", tasks);
         model.addAttribute("todoList", todoList);
-        return "admin/todolists/taskPage";
+        return "todolists/taskPage";
     }
 
     // ADD NEW TASK
-    @PostMapping("/admin/todolists/{id}/tasks")
-    public String addTask(@PathVariable("id") Long id, @RequestParam String description) {
+    @PostMapping("/api/todolists/{id}/tasks")
+    public String addTask(@PathVariable("id") Long id, @RequestParam String description, HttpServletRequest request) {
         TodoList todoList = tr.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
 
         Task task = new Task();
@@ -106,25 +107,31 @@ public class TodoListController {
         task.setCompleted(false);
         task.setTodoList(todoList);
         taskRepository.save(task);
-        return "redirect:/admin/todolists/taskPage/" + id;
+
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 
     // EDIT TASK
-    @PostMapping("/admin/todolists/{id}/tasks/{taskId}")
-    public String editTask(@PathVariable("id") Long id, @PathVariable("taskId") Long taskId, @RequestParam String description, @RequestParam(required = false) boolean completed) {
+    @PostMapping("/api/todolists/{id}/tasks/{taskId}")
+    public String editTask(@PathVariable("id") Long id, @PathVariable("taskId") Long taskId,
+                           @RequestParam String description, @RequestParam(required = false) boolean completed,
+                           HttpServletRequest request) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
         task.setDescription(description);
         task.setCompleted(completed);
         taskRepository.save(task);
-        return "redirect:/admin/todolists/taskPage/" + id;
+
+        String referer = request.getHeader("Referer");
+        return "redirect:" + referer;
     }
 
     // DELETE TASK
-    @DeleteMapping("/admin/todolists/{id}/tasks/{taskId}")
+    @DeleteMapping("/api/todolists/{id}/tasks/{taskId}")
     @ResponseBody
     public String deleteTask(@PathVariable("id") Long id, @PathVariable("taskId") Long taskId) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
         taskRepository.delete(task);
-        return "redirect:/admin/todolists/taskPage/" + id;
+        return "redirect:/todolists/taskPage/" + id;
     }
 }

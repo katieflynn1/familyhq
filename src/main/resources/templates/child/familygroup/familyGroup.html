@@ -1,0 +1,22 @@
+<!--child/familygroup/familyGroup.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<h1>CHILD FAMILY GROUP TOOL</h1>
+
+<div>
+    <p>Your family group is: <span th:text="${familyGroupName}"></span></p>
+    <p>Members:</p>
+    <ul>
+        <li th:each="member : ${familyGroupMembers}">
+            <span th:text="${member.firstName}"></span>
+            <span th:text="${member.lastName}"></span>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

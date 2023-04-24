@@ -1,0 +1,16 @@
+<!--parent/familygroup/noFamilyGroup.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<h1>PARENT FAMILY GROUP TOOL</h1>
+<div>
+    <p>You have not created or been added to a family group yet.</p>
+    <form th:action="@{/api/familygroups/create}" method="post">
+        <label for="groupName">Family Group Name:</label>
+        <input type="text" id="groupName" name="groupName" required><br><br>
+        <input type="hidden" id="userId" name="userId" th:value="${userId}">
+        <input type="submit" value="Create Family Group">
+    </form>
+</div>
+</body>
+</html>

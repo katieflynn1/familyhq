@@ -4,40 +4,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4851a049-8eb4-43d5-a35e-119d717b4ee8" name="Changes" comment="to do list function update-2">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/FamilyController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/StatisticsController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Family.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/FamilyRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/FamilyRequestStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/FamilyStatus.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Statistics.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/FamilyRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/FamilyRequestDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/StatisticsRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/Chart.min.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/static/js/custom.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/FamilyRequestList.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/family.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/statistics.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/FamilyRequestList.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/templates/user/family.html" afterDir="false" />
+    <list default="true" id="4851a049-8eb4-43d5-a35e-119d717b4ee8" name="Changes" comment="user stats function update-1">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/ChildController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/DashboardController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/FamilyGroupController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/FamilyGroup.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/FamilyGroupRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/config/CustomLoginSucessHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/config/CustomLoginSucessHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/config/WebMvcConfig.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/config/WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/config/WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/AdminController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/UserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/AdminController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/ParentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/FamilyController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/StatisticsController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/StatisticsController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/TodoListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/TodoListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/Family.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/FamilyRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/FamilyRequestStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/FamilyStatus.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/Role.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Role.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/TaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/TaskRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/TodoListRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/TodoListRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/FamilyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/FamilyRequestDTO.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/admin/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/friendlist.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/stats.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/friendlist.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/service/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/service/UserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/FamilyRequestList.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/budget.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/child/reward.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/calendar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/calendar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/parent/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/family.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/instantmessage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/instantmessage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/mealplan.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/meals.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/statistics.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/statistics.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/createForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todolists/createForm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/editForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todolists/editForm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/taskPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todolists/taskPage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/admin/todolists/todolist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todolists/todolist.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/auth/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/auth/register.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/homepage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/homepage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/FamilyRequestList.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/child/familygroup/noFamilyGroup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/budget.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/parent/reward.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/calendar.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/child/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/family.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/parent/familygroup/noFamilyGroup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/instantmessage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/parent/familygroup/familyGroup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/mealplan.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/stats.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/child/familygroup/familyGroup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/todolists/assignForm.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/todolists/createForm.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/user/todolists/todolist.html" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +92,7 @@
   &quot;keyToString&quot;: {
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;todolist-dev2&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;userStats-dev&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/katie/GitHub/familyhq/src/main/resources/static/js&quot;,
     &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
@@ -90,10 +106,11 @@
       <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user\todolists" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user" />
-      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\admin" />
-      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user\todolists" />
-      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\admin\todolists" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\child\familygroup" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\parent\familygroup" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\todolists" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources" />
     </key>
   </component>
   <component name="RunManager">
@@ -199,7 +216,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682032861880</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="user stats function update-1">
+      <created>1682205309980</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1682205309981</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -233,6 +257,7 @@
     <MESSAGE value="to do list function update" />
     <MESSAGE value="to do list function update-1" />
     <MESSAGE value="to do list function update-2" />
-    <option name="LAST_COMMIT_MESSAGE" value="to do list function update-2" />
+    <MESSAGE value="user stats function update-1" />
+    <option name="LAST_COMMIT_MESSAGE" value="user stats function update-1" />
   </component>
 </project>

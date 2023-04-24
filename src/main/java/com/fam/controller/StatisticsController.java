@@ -34,9 +34,7 @@ public class StatisticsController {
         this.statisticsRepository = statisticsRepository;
     }
 
-
-
-    @GetMapping("/admin/statistics/event")
+    @GetMapping("/api/statistics/event")
     public ResponseEntity<Map<String, Object>> getEventStatisticsData() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userRepository.findByEmail(auth.getName())
@@ -57,7 +55,7 @@ public class StatisticsController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @GetMapping("/admin/statistics/todoList")
+    @GetMapping("/api/statistics/todoList")
     public ResponseEntity<Map<String, Object>> getToDoListStatisticsData() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userRepository.findByEmail(auth.getName())
@@ -78,7 +76,7 @@ public class StatisticsController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @GetMapping("/admin/statistics/task")
+    @GetMapping("/api/statistics/task")
     public ResponseEntity<Map<String, Object>> getTaskStatisticsData() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userRepository.findByEmail(auth.getName())
@@ -99,7 +97,7 @@ public class StatisticsController {
         return ResponseEntity.ok(responseBody);
     }
 
-    @GetMapping("/admin/statistics/eventByCategory")
+    @GetMapping("/api/statistics/eventByCategory")
     public ResponseEntity<Map<String, Object>> getEventStatisticsByCategoryData() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userRepository.findByEmail(auth.getName())

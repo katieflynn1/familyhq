@@ -10,7 +10,7 @@
 <div class="container-fluid py-4">
     <h1>Edit Todo List</h1>
     <p>Todo List: <span th:text="${todoList.title}"></span></p>
-    <form th:action="@{/admin/todolists/edit}" th:object="${todoList}" method="post">
+    <form th:action="@{/api/todolists/edit}" th:object="${todoList}" method="post">
         <div class="form-group row">
             <label for="title" class="col-sm-2 col-form-label">Title:</label>
             <div class="col-sm-10">
