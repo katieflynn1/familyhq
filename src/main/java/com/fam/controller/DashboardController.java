@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class AdminController {
+public class DashboardController {
 
     private final EventRepository eventRepository;
     private final TodoListRepository todoListRepository;
@@ -19,9 +19,9 @@ public class AdminController {
     private final UserRepository userRepository;
     private final StatisticsRepository statisticsRepository;
 
-    public AdminController(EventRepository eventRepository, TodoListRepository todoListRepository,
-                                TaskRepository taskRepository, UserRepository userRepository,
-                                StatisticsRepository statisticsRepository) {
+    public DashboardController(EventRepository eventRepository, TodoListRepository todoListRepository,
+                            TaskRepository taskRepository, UserRepository userRepository,
+                            StatisticsRepository statisticsRepository) {
         this.eventRepository = eventRepository;
         this.todoListRepository = todoListRepository;
         this.taskRepository = taskRepository;
@@ -29,30 +29,31 @@ public class AdminController {
         this.statisticsRepository = statisticsRepository;
     }
 
-    @RequestMapping(value = {"/admin/dashboard"}, method = RequestMethod.GET)
-    public String adminDasboard(){ return "admin/dashboard";}
-
-    @RequestMapping(value = {"/admin/calendar"}, method = RequestMethod.GET)
-    public String adminCalendar(){
-        return "admin/calendar";
+    // CALENDAR PAGE
+    @RequestMapping(value = {"/calendar"}, method = RequestMethod.GET)
+    public String dashBoardCalendar(){
+        return "/calendar";
     }
 
-    @RequestMapping(value = {"/admin/todolists"}, method = RequestMethod.GET)
-    public String adminTodolist(){
-        return "admin/todolists/todolist";
+    // TO DO LIST PAGE
+    @RequestMapping(value = {"/todolists"}, method = RequestMethod.GET)
+    public String dashBoardTodolist(){
+        return "/todolists/todolist";
     }
 
-    @RequestMapping(value = {"/admin/instantmessage"}, method = RequestMethod.GET)
-    public String adminInstantMessage(){
-        return "admin/instantmessage";
+    // INSTANT MESSAGE PAGE
+    @RequestMapping(value = {"/instantmessage"}, method = RequestMethod.GET)
+    public String dashBoardInstantMessage(){
+        return "/instantmessage";
     }
 
-    // STATISTICS PAGE + CALCULATIONS
-    @GetMapping("/admin/statistics") public String adminStats() {
+    // STATISTICS PAGE
+    @GetMapping("/statistics") public String dashBoardStats() {
         calculateAndSaveStatistics();
-        return "admin/statistics";
+        return "/statistics";
     }
 
+    // STATISTICS CALCULATIONS
     private void calculateAndSaveStatistics() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         User currentUser = userRepository.findByEmail(auth.getName())
@@ -91,18 +92,10 @@ public class AdminController {
         statisticsRepository.save(statistics);
     }
 
-    @RequestMapping(value = {"/admin/budget"}, method = RequestMethod.GET)
-    public String adminBudget(){
-        return "admin/budget";
-    }
 
-    @RequestMapping(value = {"/admin/mealplan"}, method = RequestMethod.GET)
-    public String adminMealPlan(){
-        return "admin/mealplan";
-    }
-
-    @RequestMapping(value = {"/admin/friendlist"}, method = RequestMethod.GET)
-    public String adminFriendList(){
-        return "admin/friendlist/friends";
+    // MEALS PAGE
+    @RequestMapping(value = {"/meals"}, method = RequestMethod.GET)
+    public String dashBoardMeals(){
+        return "/meals";
     }
 }

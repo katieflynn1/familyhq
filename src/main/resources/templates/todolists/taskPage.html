@@ -22,7 +22,7 @@
         <tr th:each="task : ${tasks}">
             <td>[[${task.description}]]</td>
             <td>
-                <form th:action="@{/admin/todolists/{id}/tasks/{taskId}(id=${todoList.id}, taskId=${task.id})}"
+                <form th:action="@{/api/todolists/{id}/tasks/{taskId}(id=${todoList.id}, taskId=${task.id})}"
                       method="post"
                       onchange="this.submit()">
                     <input type="hidden" name="_method" value="put"/>
@@ -39,7 +39,7 @@
 
     <div class="card">
         <div class="card-body">
-            <form th:action="@{/admin/todolists/{id}/tasks(id=${todoList.id})}" method="post">
+            <form th:action="@{/api/todolists/{id}/tasks(id=${todoList.id})}" method="post">
                 <div class="form-group">
                     <label for="description">New Task:</label>
                     <input type="text" class="form-control" id="description" name="description" required>
@@ -53,7 +53,7 @@
 <script>
     function deleteTask(id) {
         $.ajax({
-            url: '/admin/todolists/' + [[${todoList.id}]] + '/tasks/' + id,
+            url: '/api/todolists/' + [[${todoList.id}]] + '/tasks/' + id,
             type: 'DELETE',
             success: function(result) {
                 // Reload the page to reflect changes

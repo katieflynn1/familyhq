@@ -22,7 +22,7 @@
 <!-- Pass eventData and eventLabels to the JavaScript chart function -->
 <script th:inline="javascript">
     function displayEventStats() {
-        $.get("/admin/statistics/event", function(data) {
+        $.get("/api/statistics/event", function(data) {
             var eventData = data.chartData;
             var eventLabels = data.chartLabels;
             google.charts.load('current', {'packages':['corechart']});
@@ -34,7 +34,7 @@
     }
 
     function displayEventCategoryStats() {
-  $.get("/admin/statistics/eventByCategory", function(data) {
+  $.get("/api/statistics/eventByCategory", function(data) {
     var eventData = data.chartData;
     var chartLabels = data.chartLabels;
     var chartTitle = "Event Categories";
@@ -47,7 +47,7 @@
 }
 
     function displayTodoListStats() {
-        $.get("/admin/statistics/todoList", function(data) {
+        $.get("/api/statistics/todoList", function(data) {
             var todoListData = data.chartData;
             var todoListLabels = data.chartLabels;
             google.charts.load('current', {'packages':['corechart']});
@@ -59,7 +59,7 @@
     }
 
     function displayTaskStats() {
-        $.get("/admin/statistics/task", function(data) {
+        $.get("/api/statistics/task", function(data) {
             var taskData = data.chartData;
             var taskLabels = data.chartLabels;
             google.charts.load('current', {'packages':['corechart']});

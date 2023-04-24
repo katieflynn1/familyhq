@@ -1,4 +1,4 @@
-<!--admin/todolists/todolist.html-->
+<!--todolists/todolist.html-->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -16,7 +16,7 @@
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4" id="todo-list">
     </div>
     <div class="add-todo-list">
-        <a th:href="@{/createForm}">Create new todo list</a>
+        <a th:href="@{/api/createForm}">Create new todo list</a>
     </div>
 </div>
 
@@ -32,7 +32,7 @@
         // Function to load the todo lists
         function loadTodoLists() {
             $.ajax({
-                url: '/lists',
+                url: '/api/lists',
                 type: 'GET',
                 success: function(todoLists) {
                     // Remove any existing items from the list
@@ -54,12 +54,12 @@
                                 $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Creator: ' + creator.email).appendTo(cardBody);
                                 $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Assigned To: ' + assigned).appendTo(cardBody);
                                 $('<p>').addClass('card-text').text('Completed: ' + completed).appendTo(cardBody);
-                                $('<a>').addClass('card-link').attr('href', '/admin/todolists/edit/' + todoList.id).text('Edit').appendTo(cardBody);
-                                $('<a>').addClass('card-link delete-btn').attr('href', '/admin/todolists/delete/' + todoList.id).text('Delete').appendTo(cardBody);
+                                $('<a>').addClass('card-link').attr('href', '/api/todolists/edit/' + todoList.id).text('Edit').appendTo(cardBody);
+                                $('<a>').addClass('card-link delete-btn').attr('href', '/api/todolists/delete/' + todoList.id).text('Delete').appendTo(cardBody);
 
                                 // Add click event listener to card body
                                 cardBody.click(function() {
-                                    window.location.href = '/admin/todolists/taskPage/' + todoList.id;
+                                    window.location.href = '/api/todolists/taskPage/' + todoList.id;
                                 });
 
                                 card.appendTo('#todo-list');
@@ -90,7 +90,7 @@
         // Function to handle deleting a todo list
         function deleteTodoList(id) {
             $.ajax({
-                url: '/admin/todolists/delete/' + id,
+                url: '/api/todolists/delete/' + id,
                 type: 'DELETE',
                 success: function(result) {
                     loadTodoLists();
@@ -99,6 +99,7 @@
                     console.log("Error deleting todo list: " + error);
                 }
             });
+              return false; // prevent default action
         }
     });
 </script>
