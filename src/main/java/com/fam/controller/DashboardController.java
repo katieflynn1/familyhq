@@ -1,14 +1,25 @@
 package com.fam.controller;
 
-import com.fam.model.Statistics;
-import com.fam.model.User;
+import com.fam.model.*;
 import com.fam.repository.*;
+import com.fam.service.FamilyGroupService;
+import com.fam.service.InstantMessageService;
+import com.fam.service.UserService;
+import net.minidev.json.JSONArray;
+import net.minidev.json.JSONObject;
+import net.minidev.json.parser.JSONParser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 @Controller
 public class DashboardController {
@@ -18,15 +29,22 @@ public class DashboardController {
     private final TaskRepository taskRepository;
     private final UserRepository userRepository;
     private final StatisticsRepository statisticsRepository;
+    private final UserService userService;
+    private final FamilyGroupService familyGroupService;
+    private final InstantMessageService instantMessageService;
 
     public DashboardController(EventRepository eventRepository, TodoListRepository todoListRepository,
                             TaskRepository taskRepository, UserRepository userRepository,
-                            StatisticsRepository statisticsRepository) {
+                            StatisticsRepository statisticsRepository, UserService userService,
+                            FamilyGroupService familyGroupService, InstantMessageService instantMessageService) {
         this.eventRepository = eventRepository;
         this.todoListRepository = todoListRepository;
         this.taskRepository = taskRepository;
         this.userRepository = userRepository;
         this.statisticsRepository = statisticsRepository;
+        this.userService = userService;
+        this.familyGroupService = familyGroupService;
+        this.instantMessageService = instantMessageService;
     }
 
     // CALENDAR PAGE
@@ -39,12 +57,6 @@ public class DashboardController {
     @RequestMapping(value = {"/todolists"}, method = RequestMethod.GET)
     public String dashBoardTodolist(){
         return "/todolists/todolist";
-    }
-
-    // INSTANT MESSAGE PAGE
-    @RequestMapping(value = {"/instantmessage"}, method = RequestMethod.GET)
-    public String dashBoardInstantMessage(){
-        return "/instantmessage";
     }
 
     // STATISTICS PAGE
@@ -93,9 +105,23 @@ public class DashboardController {
     }
 
 
-    // MEALS PAGE
+    // FAMILY RECIPES PAGE
     @RequestMapping(value = {"/meals"}, method = RequestMethod.GET)
     public String dashBoardMeals(){
-        return "/meals";
+        return "/familyrecipes/family-recipes";
+    }
+
+    // FAMILY RECIPE METHODS
+    @GetMapping("/tasty/familyrecipes/mealSearch")
+    public String mealSearch(Model model, Principal principal) {
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
+        FamilyGroup familyGroup = user.getFamilyGroups().iterator().next(); // Get the first FamilyGroup from the Set
+        model.addAttribute("familyGroupId", familyGroup.getId());
+
+        return "familyrecipes/mealSearch";
+    }
+    @GetMapping("/tasty/familyrecipes/meals")
+    public String meals(Model model, Principal principal) {
+        return "familyrecipes/meals";
     }
 }

@@ -1,5 +1,6 @@
 package com.fam.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ public class FamilyGroup {
     @Column(name = "group_name")
     private String groupName;
 
+    @JsonBackReference
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "family_group_members",

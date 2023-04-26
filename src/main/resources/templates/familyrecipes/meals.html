@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Family Favorite Recipes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>Family Favorite Recipes</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <ul id="favorite-recipes" class="list-unstyled"></ul>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+   $(document).ready(function () {
+    $.getJSON("/tasty/familyrecipes/meals-data", function (data) {
+        let favoriteRecipesHtml = '';
+
+        data.forEach(function (recipe) {
+            let recipeTitle = recipe.recipeTitle;
+            let recipeId = recipe.id;
+            let recipeUrl = recipe.url;
+
+            if (recipeUrl.startsWith("undefined")) {
+                recipeUrl = "/tasty/recipes/detail?id=" + recipeId;
+            }
+
+            favoriteRecipesHtml += `<li><a href="${recipeUrl}" target="_blank">${recipeTitle}</a></li>`;
+        });
+
+        $('#favorite-recipes').html(favoriteRecipesHtml);
+    });
+});
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
