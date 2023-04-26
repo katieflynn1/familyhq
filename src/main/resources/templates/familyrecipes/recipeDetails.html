@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Details</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1 th:text="${name}">Recipe Name</h1>
+    <hr>
+    <img th:src="${thumbnail_url}" alt="Recipe Image">
+    <h3>Ingredients</h3>
+    <ul>
+        <li th:each="ingredient : ${ingredients}" th:text="${ingredient}">Ingredient</li>
+    </ul>
+    <h3>Instructions</h3>
+    <ol>
+        <li th:each="instruction : ${instructions}" th:text="${instruction}">Instruction</li>
+    </ol>
+</div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipes Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>Recipes Search</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-12">
+            <h3>Search for Recipes</h3>
+            <form id="search-form">
+                <div class="form-group">
+                    <label for="search">Recipe Name</label>
+                    <input type="text" class="form-control" id="search" placeholder="Enter recipe name">
+                </div>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h3>Search Results</h3>
+            <table id="search-results" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>Recipe</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script th:inline="javascript">
+    $(document).ready(function () {
+
+         /*<![CDATA[*/
+    let familyGroupId = /*[[${familyGroupId}]]*/ '1';
+    /*]]>*/
+
+        $('#search-form').submit(function (event) {
+            event.preventDefault();
+
+            let searchQuery = $('#search').val();
+            if (searchQuery) {
+                $.get("/tasty/recipes/list", { query: searchQuery, from: 0, size: 10 }, function (data) {
+                    let results = data.results; // Change this line
+                    let resultsHtml = '';
+
+                    results.forEach(function (result) {
+                    let recipeId = result.id;
+                    let recipeName = result.name;
+                    let recipeUrl = "/tasty/recipes/get-more-info?id=" + recipeId; // Create the URL using the id
+                    let imageUrl = result.thumbnail_url;
+                    resultsHtml += `<tr>
+        <td>
+            <a href="${recipeUrl}" target="_blank">${recipeName}</a><br>
+            <img src="${imageUrl}" alt="${recipeName}" style="width: 100px; height: auto;">
+        </td>
+        <td>
+            <button class="btn btn-primary add-to-favorites" data-recipe-title="${recipeName}" data-url="${recipeUrl}">Add to Favorites</button>
+        </td>
+    </tr>`;
+});
+
+                    $('#search-results tbody').html(resultsHtml);
+                }, "json"); // Add "json" argument here
+            } else {
+                $('#search-results tbody').html('');
+            }
+        });
+
+        $(document).on('click', '.add-to-favorites', function () {
+            let recipeTitle = $(this).data('recipe-title');
+            let url = $(this).data('url');
+
+            $.post("/tasty/familyrecipes/add", { recipeTitle: recipeTitle, url: url, familyGroupId: familyGroupId }, function (response) {
+                alert(response);
+            });
+        });
+    });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

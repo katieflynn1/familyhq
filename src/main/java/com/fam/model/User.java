@@ -1,5 +1,6 @@
 package com.fam.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -74,6 +75,7 @@ public class User implements UserDetails  {
         return Collections.singletonList(authority);
     }
 
+    @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members")
     private Set<FamilyGroup> familyGroups = new HashSet<>();
 
