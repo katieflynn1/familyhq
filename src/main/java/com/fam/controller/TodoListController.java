@@ -1,8 +1,10 @@
 package com.fam.controller;
 
+import com.fam.model.Goal;
 import com.fam.model.Task;
 import com.fam.model.TodoList;
 import com.fam.model.User;
+import com.fam.repository.GoalRepository;
 import com.fam.repository.TaskRepository;
 import com.fam.repository.TodoListRepository;
 import com.fam.repository.UserRepository;
@@ -26,6 +28,8 @@ public class TodoListController {
     private TaskRepository taskRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private GoalRepository goalRepository;
 
     // GET ALL TODO LISTS
     @GetMapping("/api/lists")
@@ -119,7 +123,19 @@ public class TodoListController {
                            HttpServletRequest request) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
         task.setDescription(description);
+
+        boolean wasCompleted = task.isCompleted();
         task.setCompleted(completed);
+
+        if (!wasCompleted && completed && task.getGoal() != null) {
+            Goal goal = task.getGoal();
+            goal.setPointsEarned(goal.getPointsEarned() + 10);
+            if (goal.getPointsEarned() >= goal.getPointsNeeded()) {
+                goal.setCompleted(true);
+            }
+            goalRepository.save(goal);
+        }
+
         taskRepository.save(task);
 
         String referer = request.getHeader("Referer");

@@ -120,6 +120,8 @@ public class DashboardController {
 
         return "familyrecipes/mealSearch";
     }
+
+    // GET FAMILY FAVOURITE RECIPES PAGE
     @GetMapping("/tasty/familyrecipes/meals")
     public String meals(Model model, Principal principal) {
         return "familyrecipes/meals";
