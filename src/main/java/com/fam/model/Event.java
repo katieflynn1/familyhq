@@ -1,7 +1,10 @@
 package com.fam.model;
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 @Entity
@@ -35,12 +38,13 @@ public class Event {
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User creator;
 
-    @Column(nullable = false)
-    private String assignedUserEmail;
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<EventUser> assignedUsers = new HashSet<>();
 
     // getters and setters
 
-    public Event(Long id, String title, LocalDateTime start, LocalDateTime end, String category, boolean completed, String notes, User creator, User assignedUser, String assignedUserEmail) {
+    public Event(Long id, String title, LocalDateTime start, LocalDateTime end, String category, boolean completed, String notes, User creator) {
         this.id = id;
         this.title = title;
         this.start = start;
@@ -49,7 +53,6 @@ public class Event {
         this.completed = completed;
         this.notes = notes;
         this.creator = creator;
-        this.assignedUserEmail = assignedUserEmail;
     }
 
     public Event() {
@@ -119,19 +122,11 @@ public class Event {
         this.creator = creator;
     }
 
-//    public User getAssignedUser() {
-//        return assignedUser;
-//    }
-//
-//    public void setAssignedUser(User assignedUser) {
-//        this.assignedUser = assignedUser;
-//    }
-
-    public String getAssignedUserEmail() {
-        return assignedUserEmail;
+    public Set<EventUser> getAssignedUsers() {
+        return assignedUsers;
     }
 
-    public void setAssignedUserEmail(String assignedUserEmail) {
-        this.assignedUserEmail = assignedUserEmail;
+    public void setAssignedUsers(Set<EventUser> assignedUsers) {
+        this.assignedUsers = assignedUsers;
     }
 }

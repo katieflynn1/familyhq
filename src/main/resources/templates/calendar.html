@@ -80,12 +80,12 @@
     nav.init();
 
 
-    const dp = new DayPilot.Calendar("dp");
-    dp.viewType = "Week";
-    dp.onTimeRangeSelected = function (args) {
-        var form = [
-            { name: "Title", id: "title", type: "text" },
-            { name: "Category", id: "category", type: "select", options: [
+  const dp = new DayPilot.Calendar("dp");
+  dp.viewType = "Week";
+  dp.onTimeRangeSelected = function (args) {
+    var form = [
+        { name: "Title", id: "title", type: "text" },
+        { name: "Category", id: "category", type: "select", options: [
             { name: "Work", id: "work" },
             { name: "Personal", id: "personal" },
             { name: "Family", id: "family" },
@@ -93,91 +93,124 @@
         ]},
         { name: "Completed", id: "completed", type: "checkbox" },
         { name: "Notes", id: "notes", type: "textarea" },
-        { name: "Assigned User Email", id: "assignedUserEmail", type: "text" },
-        ];
-        DayPilot.Modal.form(form).then(function (modal) {
-            dp.clearSelection();
-            if (!modal.result) { return; }
-            var params = {
+        { name: "Assigned User Emails", id: "assignedUserEmails", type: "text" },
+    ];
+    DayPilot.Modal.form(form).then(function (modal) {
+        dp.clearSelection();
+        if (!modal.result) { return; }
+        var assignedUserEmails = modal.result.assignedUserEmails.split(',').map(email => email.trim());
+        var params = {
             title: modal.result.title,
             start: args.start.toString(),
             end: args.end.toString(),
             category: modal.result.category,
             completed: modal.result.completed,
             notes: modal.result.notes,
-            assignedUserEmail: modal.result.assignedUserEmail
-            };
-            DayPilot.Http.ajax({
-                url: '/api/events/create',
-                data: params,
-                success: function (ajax) {
-                    var data = ajax.data;
-                    dp.events.add(new DayPilot.Event(data));
-                    dp.message("Event created");
-                }
-            });
+            assignedUserEmails: assignedUserEmails
+        };
+        DayPilot.Http.ajax({
+            url: '/api/events/create',
+            data: params,
+            success: function (ajax) {
+                var data = ajax.data;
+                dp.events.add(new DayPilot.Event(data));
+                dp.message("Event created");
+            }
         });
-    };
+    });
+};
 
-dp.onEventClick = function(args) {
+dp.onEventClick = function (args) {
   var eventId = args.e.data.id;
   DayPilot.Http.ajax({
     url: "/api/events/" + eventId,
-    success: function(ajax) {
+    success: function (ajax) {
       var event = ajax.data;
-      var form = [        { name: "Title", id: "title", type: "text", value: event.title },        { name: "Category", id: "category", type: "select", options: [            { name: "Work", id: "Work" },            { name: "Personal", id: "Personal" },            { name: "Family", id: "Family" },            { name: "Other", id: "Other" }        ], value: event.category },
+      var assignedUserEmails = event.assignedUsers.map(user => user.email).join(', ');
+      var form = [
+        { name: "Title", id: "title", type: "text", value: event.title },
+        {
+          name: "Category",
+          id: "category",
+          type: "select",
+          options: [
+            { name: "Work", id: "Work" },
+            { name: "Personal", id: "Personal" },
+            { name: "Family", id: "Family" },
+            { name: "Other", id: "Other" },
+          ],
+          value: event.category,
+        },
         { name: "Completed", id: "completed", type: "checkbox", checked: event.completed },
         { name: "Notes", id: "notes", type: "textarea", value: event.notes },
-        { name: "Assigned User Email", id: "assignedUserEmail", type: "text", value: event.assignedUserEmail },
-        { name: "Delete Event", id: "deleteEvent", html: "<button>Delete Event</button>" }
+        { name: "Assigned User Emails", id: "assignedUserEmails", type: "text", value: assignedUserEmails },
+        {
+          name: "Delete Event",
+          id: "deleteEvent",
+          html: '<button id="deleteEventButton">Delete Event</button>',
+        },
       ];
 
       var options = {
         autoFocus: true,
-        buttons: [
-          { text: "Delete Event", click: function(e, modal) {
-              DayPilot.Http.ajax({
-                  url: "/api/events/" + eventId,
-                  method: "DELETE",
-                  success: function() {
-                      dp.events.remove(args.e);
-                      dp.message("Event deleted");
-                      modal.close();
-                  }
-              });
-          }}
-        ]
       };
 
-      DayPilot.Modal.form(form, event, options).then(function(modal) {
-        if (!modal.result) { return; }
+      DayPilot.Modal.form(form, event, options).then(function (modal) {
+        if (!modal.result) {
+          return;
+        }
+        var assignedUserEmails = modal.result.assignedUserEmails.split(',').map(email => email.trim());
         var params = {
           id: event.id,
           title: modal.result.title,
           category: modal.result.category,
           completed: modal.result.completed,
           notes: modal.result.notes,
-          assignedUserEmail: modal.result.assignedUserEmail
+          assignedUserEmails: assignedUserEmails,
         };
 
         DayPilot.Http.ajax({
           url: "/api/events/update",
           data: params,
-          success: function(ajax) {
+          success: function (ajax) {
             var data = ajax.data;
             args.e.data.title = data.title;
             args.e.data.category = data.category;
             args.e.data.completed = data.completed;
             args.e.data.notes = data.notes;
-            args.e.data.assignedUserEmail = data.assignedUserEmail;
+            args.e.data.assignedUserEmails = data.assignedUserEmails;
             args.e.update();
             dp.message("Event updated");
-          }
+          },
         });
       });
-    }
+
+      // Add a click handler for the delete button
+      setTimeout(function () {
+        var deleteButton = document.getElementById("deleteEventButton");
+        deleteButton.addEventListener("click", function () {
+          deleteEvent(args);
+        });
+      }, 100);
+    },
   });
 };
+
+function deleteEvent(args) {
+  var eventId = args.e.data.id;
+  DayPilot.Http.ajax({
+    url: "/api/events/" + eventId,
+    method: "DELETE",
+    success: function () {
+      dp.events.remove(args.e);
+
+      // Display a message saying the event has been deleted
+      dp.message("Event deleted");
+
+      DayPilot.Modal.close();
+    },
+  });
+}
     dp.onEventMove = function (args) {
         var params = {
             id: args.e.id(),
@@ -281,7 +314,6 @@ dp.onEventClick = function(args) {
         }
     });
 }
-
     </script>
 </main>
 </body>

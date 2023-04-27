@@ -74,10 +74,13 @@ public class User implements UserDetails  {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
         return Collections.singletonList(authority);
     }
-
     @JsonManagedReference
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "members")
     private Set<FamilyGroup> familyGroups = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    private Set<EventUser> assignedEvents = new HashSet<>();
 
     @Override
     public String getPassword() {
@@ -162,4 +165,11 @@ public class User implements UserDetails  {
         this.familyGroups = familyGroups;
     }
 
+    public Set<EventUser> getAssignedEvents() {
+        return assignedEvents;
+    }
+
+    public void setAssignedEvents(Set<EventUser> assignedEvents) {
+        this.assignedEvents = assignedEvents;
+    }
 }

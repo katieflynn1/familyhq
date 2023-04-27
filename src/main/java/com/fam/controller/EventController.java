@@ -2,15 +2,18 @@ package com.fam.controller;
 
 import com.fam.model.Event;
 import com.fam.model.User;
+import com.fam.model.EventUser;
 import com.fam.params.EventCreateParams;
 import com.fam.params.EventUpdateParams;
 import com.fam.repository.EventRepository;
+import com.fam.repository.EventUserRepository;
 import com.fam.repository.UserRepository;
 import com.fam.service.UserService;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,6 +29,8 @@ public class EventController {
     private final EventRepository er;
     private final UserRepository ur ;
     private final UserService userService;
+    @Autowired
+    private EventUserRepository eur;
 
     @Autowired
     public EventController(EventRepository er,UserRepository ur, UserService userService ) {
@@ -40,9 +45,10 @@ public class EventController {
         List<Event> events = er.findByCreatorEmailOrAssignedUserEmail(email);
         return events;
     }
+
     @PostMapping("/api/events/create")
     @Transactional
-    public Event createEvent(@RequestBody EventCreateParams params){
+    public Event createEvent(@RequestBody EventCreateParams params) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             User user = ur.findByEmail(authentication.getName()).orElse(null);
@@ -54,11 +60,24 @@ public class EventController {
                 e.setCategory(params.category);
                 e.setCompleted(params.completed);
                 e.setNotes(params.notes);
-                if (params.assignedUserEmail != null) {
-                    e.setAssignedUserEmail(params.assignedUserEmail);
-                }
                 e.setCreator(user);
-                er.save(e);
+
+                // Save the event first
+                e = er.save(e);
+
+                if (params.assignedUserEmails != null) {
+                    for (String userEmail : params.assignedUserEmails) {
+                        User assignedUser = ur.findByEmail(userEmail).orElse(null);
+                        if (assignedUser != null) {
+                            EventUser eventUser = new EventUser();
+                            eventUser.setEvent(e);
+                            eventUser.setUser(assignedUser);
+                            e.getAssignedUsers().add(eventUser);
+                            // Save the eventUser
+                            eur.save(eventUser);
+                        }
+                    }
+                }
                 return e;
             }
         }
@@ -103,8 +122,17 @@ public class EventController {
         e.setCategory(params.category);
         e.setCompleted(params.completed);
         e.setNotes(params.notes);
-        if (params.assignedUserEmail != null) {
-            e.setAssignedUserEmail(params.assignedUserEmail);
+        e.getAssignedUsers().clear();
+        if (params.assignedUserEmails != null) {
+            for (String userEmail : params.assignedUserEmails) {
+                User assignedUser = ur.findByEmail(userEmail).orElse(null);
+                if (assignedUser != null) {
+                    EventUser eventUser = new EventUser();
+                    eventUser.setEvent(e);
+                    eventUser.setUser(assignedUser);
+                    e.getAssignedUsers().add(eventUser);
+                }
+            }
         }
         er.save(e);
         return e;
