@@ -1,8 +1,10 @@
 package com.fam.controller;
 
 import com.fam.model.FamilyGroup;
+import com.fam.model.Goal;
 import com.fam.model.User;
 import com.fam.repository.FamilyGroupRepository;
+import com.fam.repository.GoalRepository;
 import com.fam.repository.UserRepository;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,16 +13,22 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Controller
 public class ChildController {
     private final FamilyGroupRepository familyGroupRepository;
     private final UserRepository userRepository;
-    public ChildController( FamilyGroupRepository familyGroupRepository, UserRepository userRepository) {
+    private final GoalRepository goalRepository;
+    public ChildController( FamilyGroupRepository familyGroupRepository,
+                            UserRepository userRepository, GoalRepository goalRepository) {
         this.familyGroupRepository = familyGroupRepository;
         this.userRepository = userRepository;
+        this.goalRepository = goalRepository;
     }
 
     // CHILD DASHBOARD PAGE
@@ -31,8 +39,14 @@ public class ChildController {
 
     // CHILD REWARD PAGE
     @RequestMapping(value = {"/child/reward"}, method = RequestMethod.GET)
-    public String childReward(){
-        return "child/reward";
+    public String childReward(Principal principal, Model model){
+        User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<Goal> assignedGoals = goalRepository.findByAssignedUser(user);
+
+        model.addAttribute("goals", assignedGoals);
+
+        return "child/goals/list";
     }
 
     // CHILD FAMILY GROUP PAGE

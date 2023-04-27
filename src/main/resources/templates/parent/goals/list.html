@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Parent Rewards</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>Parent Rewards</h1>
+    <hr>
+
+    <!-- Goal creation and assignment form -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <form th:action="@{/api/goals}" method="post">
+                <div class="form-group">
+                    <label for="title">Goal Title:</label>
+                    <input type="text" class="form-control" id="title" name="title" required>
+                </div>
+                <div class="form-group">
+                    <label for="pointsNeeded">Points Needed:</label>
+                    <input type="number" class="form-control" id="pointsNeeded" name="pointsNeeded" required>
+                </div>
+                <div class="form-group">
+                    <label for="childUserId">Assign to Child:</label>
+                    <select name="childId" id="childUserId" class="form-control" required>
+                        <option value="" disabled selected>Select child</option>
+                        <!-- You need to provide a list of child users (children) in the model -->
+                        <option th:each="child : ${children}" th:value="${child.id}" th:text="${child.firstName} + ' ' + ${child.lastName}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Create and Assign Goal</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- List of created goals -->
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="list-group">
+                <li th:each="goal : ${goals}" class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <span th:text="${goal.title}"></span> - <span th:text="${goal.pointsNeeded}"></span> points
+                    </div>
+                    <div>
+                        <!-- Delete goal form -->
+                        <form th:action="@{/api/goals/{id}/delete(goalId=${goal.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

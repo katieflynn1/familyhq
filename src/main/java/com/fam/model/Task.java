@@ -19,12 +19,18 @@ public class Task{
     @JoinColumn(name = "todo_list_id", nullable = false)
     private TodoList todoList;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "goal_id", nullable = true)
+    private Goal goal;
+
+
     public Task() {}
 
-    public Task(String description, boolean completed, TodoList todoList) {
+    public Task(String description, boolean completed, TodoList todoList, Goal gosl) {
         this.description = description;
         this.completed = completed;
         this.todoList = todoList;
+        this.goal = goal;
     }
 
     // Getters and setters
@@ -59,4 +65,8 @@ public class Task{
     public void setTodoList(TodoList todoList) {
         this.todoList = todoList;
     }
+
+    public Goal getGoal() {return goal;}
+
+    public void setGoal(Goal goal) {this.goal = goal;}
 }
