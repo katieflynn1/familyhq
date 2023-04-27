@@ -1,6 +1,7 @@
 package com.fam.params;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class EventCreateParams {
     public String title;
@@ -10,14 +11,14 @@ public class EventCreateParams {
     public Boolean completed;
     public String notes;
     public String user;
-    public String assignedUserEmail; // modified field to use String instead of User
+    public List<String> assignedUserEmails;
 
     // default constructor
     public EventCreateParams() {
     }
 
     // parameterized constructor
-    public EventCreateParams(String title, LocalDateTime start, LocalDateTime end, String category, Boolean completed, String notes, String user, String assignedUserEmail) {
+    public EventCreateParams(String title, LocalDateTime start, LocalDateTime end, String category, Boolean completed, String notes, String user) {
         this.title = title;
         this.start = start;
         this.end = end;
@@ -25,7 +26,6 @@ public class EventCreateParams {
         this.completed = completed;
         this.notes = notes;
         this.user = user;
-        this.assignedUserEmail = assignedUserEmail;
     }
 
     // getters and setters
@@ -86,11 +86,11 @@ public class EventCreateParams {
         this.user = user;
     }
 
-    public String getAssignedUserEmail() {
-        return assignedUserEmail;
+    public List<String> getAssignedUserEmails() {
+        return assignedUserEmails;
     }
 
-    public void setAssignedUserEmail(String assignedUserEmail) {
-        this.assignedUserEmail = assignedUserEmail;
+    public void setAssignedUserEmails(List<String> assignedUserEmails) {
+        this.assignedUserEmails = assignedUserEmails;
     }
 }

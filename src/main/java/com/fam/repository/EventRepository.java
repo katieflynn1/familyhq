@@ -16,10 +16,10 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     @Query("from Event e where not(e.end < :from or e.start > :to)")
     public List<Event> findBetween(@Param("from") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) LocalDateTime start, @Param("to") @DateTimeFormat(iso= DateTimeFormat.ISO.DATE_TIME) LocalDateTime end);
 
-    @Query("select e from Event e where e.assignedUserEmail = :email or e.creator.email = :email")
-    List<Event> findByEmailOrUserEmail(@Param("email") String email);
+    @Query("SELECT e FROM Event e JOIN e.assignedUsers eu WHERE e.creator.email = ?1 OR eu.user.email = ?1")
+    List<Event> findByEmailOrUserEmail(String email);
 
-    @Query("select e from Event e where e.assignedUserEmail = :email or e.creator.email = :email")
+    @Query("SELECT e FROM Event e JOIN e.assignedUsers eu WHERE e.creator.email = :email OR eu.user.email = :email")
     List<Event> findByCreatorEmailOrAssignedUserEmail(@Param("email") String email);
 
     long countByCreator(User currentUser);
