@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Instant Message</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>Family Group Chat</h1>
+    <hr>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="chat-window" style="height: 500px; overflow-y: scroll; border: 1px solid #ccc; padding: 15px;">
+                <ul th:each="msg : ${messages}">
+                    <li>
+                        <strong th:text="${msg.senderEmail}">Sender</strong>:
+                        <span th:text="${msg.messageContent}">Message content</span>
+                        <small class="text-muted" th:text="${#temporals.format(msg.timestamp, 'HH:mm:ss dd/MM/yyyy')}">Timestamp</small>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-8">
+            <form th:action="@{/instantmessage}" method="post">
+
+                <div class="form-group">
+                    <label for="messageContent">Message:</label>
+                    <input type="text" class="form-control" id="messageContent" name="messageContent" required>
+                </div>
+                <button type="submit" class="btn btn-primary">Send</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</div>
+</body>
+</html>

@@ -1,0 +1,241 @@
+<!--parent/dashboard.html-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Parent Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css">
+    <link th:href="@{/css/dashboard.css}" rel="stylesheet" type="text/css">
+</head>
+<body>
+<header>
+    <!-- NAVBAR-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+        <div class="container">
+            <a class="navbar-brand" th:href="@{|/|}" th:text="'Family HQ'"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                    aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                    class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" th:href="@{|/|}" th:text="'Home'"></a>
+                    </li>
+                    <li class="nav-item d-flex">
+                        <a class="nav-link" th:href="@{|/login|}" th:text="'Log in'"
+                           sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
+                        <a class="nav-link" th:href="@{|/register|}" th:text="'Register'"
+                           sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{|/child/dashboard|}" th:text="'Child Dashboard'"
+                           sec:authorize="hasAuthority('CHILD')"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{|/parent/dashboard|}" th:text="'Parent Dashboard'"
+                           sec:authorize="hasAuthority('PARENT')"></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/logout}" th:text="'Log out'"
+                           sec:authorize="isAuthenticated()"></a>
+                    </li>
+
+                    <a class="nav-link" sec:authentication="name" sec:authorize="isAuthenticated()"></a>
+                    <a class="nav-link" sec:authentication="authorities" sec:authorize="isAuthenticated()"></a>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+
+    <!-- PAGE TITLE-->
+    <section class="jumbotron text-center" style="padding-top: 80px;">
+        <div class="row py-lg-5" style="margin-bottom: 20px;">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Family Dashboard</h1>
+                <p class="lead text-muted">Stay organized and connected as a family with easy access to all our features
+                    in one place!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- DASHBOARD TILES-->
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <!-- CALENDAR TILE-->
+                <a th:href="@{|/calendar|}" style="text-decoration: none; color: inherit; ">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="card-img-top"
+                                 src="https://images.unsplash.com/photo-1543168256-4ae2229821f1?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=406&q=80"
+                                 alt="Thumbnail">
+                            <div class="card-body">
+                                <p class="card-text">
+                                <p><h4>Calendar</h4></p>Stay on top of your schedule and never miss an event with our
+                                easy-to-use calendar feature.
+                                Share events and appointments with family members or friends to keep everyone in the
+                                loop.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- TODOLIST TILE-->
+                <a th:href="@{|/todolists|}" style="text-decoration: none; color: inherit; ">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="card-img-top"
+                                 src="https://images.pexels.com/photos/5717409/pexels-photo-5717409.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                 alt="Thumbnail">
+                            <div class="card-body">
+                                <p class="card-text">
+                                <p><h4>To Do Lists</h4></p>Keep track of what you need to do and what you need to buy
+                                with our convenient to-do list feature.
+                                Add and remove items on the go so you never forget anything again.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- INSTANT MESSAGE TILE-->
+                <a th:href="@{|/instantmessage|}" style="text-decoration: none; color: inherit; ">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="card-img-top"
+                                 src="https://images.pexels.com/photos/6437809/pexels-photo-6437809.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                 alt="Thumbnail">
+                            <div class="card-body">
+                                <p class="card-text">
+                                <p><h4>Instant Messaging</h4></p>Stay connected with family and friends by sending
+                                instant messages through our messaging feature.
+                                Easily message the people you interact with the most and keep track of your
+                                conversations in one place.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- FAMILY GROUP TILE-->
+                <a th:href="@{|/parent/familyGroup|}" style="text-decoration: none; color: inherit; ">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="card-img-top"
+                                 src="https://images.pexels.com/photos/4260749/pexels-photo-4260749.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                 alt="Thumbnail">
+                            <div class="card-body">
+                                <p class="card-text">
+                                <p><h4>Family Group</h4></p>Stay connected with your inner circle by using our
+                                friend and family list feature, which allows you to quickly see the people in your life
+                                and keep track of their contact information.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- MEALS TILE-->
+                <a th:href="@{|/meals|}" style="text-decoration: none; color: inherit; ">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="card-img-top"
+                                 src="https://images.pexels.com/photos/1640775/pexels-photo-1640775.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                 alt="Thumbnail">
+                            <div class="card-body">
+                                <p class="card-text">
+                                <p><h4>Family Recipes</h4></p>Discover new recipes and easily plan your meals for the week
+                                with our meal planning feature.
+                                Save your favorite recipes and generate shopping lists for stress-free meal prep.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- REWARD TOOL TILE-->
+                <a th:href="@{|/parent/reward|}" style="text-decoration: none; color: inherit; ">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="card-img-top"
+                                 src="https://images.pexels.com/photos/4908726/pexels-photo-4908726.jpeg?auto=compress&cs=tinysrgb&w=600&lazy=load"
+                                 alt="Thumbnail">
+
+                            <div class="card-body">
+                                <p class="card-text">
+                                <p><h4>Reward Tool</h4></p>Take control of your finances with our budgeting tool that
+                                calculates your disposable income for each month, you can also set financial goals.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <!-- USER STATISTICS TILE-->
+                <a th:href="@{|/statistics|}" style="text-decoration: none; color: inherit; ">
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img class="card-img-top"
+                                 src="https://images.pexels.com/photos/6476589/pexels-photo-6476589.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"
+                                 alt="Thumbnail">
+                            <div class="card-body">
+                                <p class="card-text">
+                                <p><h4>User Statistics</h4></p>See the breakdown of your completed and non-completed
+                                events and tasks, as well as the
+                                top three people you message the most in your friend and family list.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- FOOTER-->
+<footer class="text-center text-white" style="background-color: #f1f1f1;">
+    <!-- Grid container -->
+    <div class="container pt-2">
+        <!-- Section: Social media -->
+        <section class="mb-2">
+            <!-- Facebook -->
+            <a class="btn btn-link btn-floating btn-lg text-dark m-1"
+               href="https://www.facebook.com/"
+               role="button"
+               data-mdb-ripple-color="dark"><i class="bi bi-facebook"></i></a>
+            <!-- Twitter -->
+            <a class="btn btn-link btn-floating btn-lg text-dark m-1"
+               href="https://twitter.com/?lang=en"
+               role="button"
+               data-mdb-ripple-color="dark"><i class="bi bi-twitter"></i></a>
+            <!-- Instagram -->
+            <a class="btn btn-link btn-floating btn-lg text-dark m-1"
+               href="https://www.instagram.com/"
+               role="button"
+               data-mdb-ripple-color="dark"><i class="bi bi-instagram"></i></a>
+            <!-- Linkedin -->
+            <a class="btn btn-link btn-floating btn-lg text-dark m-1"
+               href="https://ie.linkedin.com/"
+               role="button"
+               data-mdb-ripple-color="dark"><i class="bi bi-linkedin"></i></a>
+        </section>
+        <!-- Section: Social media -->
+    </div>
+    <!-- Grid container -->
+    <!-- Copyright -->
+    <div class="text-center text-dark p-1" style="background-color: rgba(0, 0, 0, 0.2);">
+        © 2023 Copyright:
+        <a class="text-dark" th:href="@{|/|}" th:text="'Family HQ'"></a>
+    </div>
+    <!-- Copyright -->
+</footer>
+</body>
+</html>

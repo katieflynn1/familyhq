@@ -1,0 +1,107 @@
+<!--todolists/todolist.html-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo Lists</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!--jQuery Library-->
+    <script th:src="@{/js/jquery-1.9.1.min.js}"></script>
+</head>
+<body>
+<div class="container-fluid py-4">
+    <h1>Todo Lists</h1>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4" id="todo-list">
+    </div>
+    <div class="add-todo-list">
+        <a th:href="@{/api/createForm}">Create new todo list</a>
+    </div>
+</div>
+
+<style>
+    .card {
+        margin-bottom: 20px;
+        margin-left: 5px;
+        margin-right: 5px;
+    }
+</style>
+<script th:inline="javascript">
+    $(document).ready(function() {
+        // Function to load the todo lists
+        function loadTodoLists() {
+            $.ajax({
+                url: '/api/lists',
+                type: 'GET',
+                success: function(todoLists) {
+                    // Remove any existing items from the list
+                    $('#todo-list').empty();
+
+                    // Add each todo list to the DOM
+                    $.each(todoLists, function(index, todoList) {
+                        var assigned = todoList.assignedUserEmail ? todoList.assignedUserEmail : '-';
+                        var completed = todoList.completed ? 'Yes' : 'No';
+
+                        // Make a request to retrieve the creator's details
+                        $.ajax({
+                            url: '/users/' + todoList.creatorId,
+                            type: 'GET',
+                            success: function(creator) {
+                                var card = $('<div>').addClass('card');
+                                var cardBody = $('<div>').addClass('card-body').appendTo(card);
+                                $('<h5>').addClass('card-title').text(todoList.title).appendTo(cardBody);
+                                $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Creator: ' + creator.email).appendTo(cardBody);
+                                $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Assigned To: ' + assigned).appendTo(cardBody);
+                                $('<p>').addClass('card-text').text('Completed: ' + completed).appendTo(cardBody);
+                                $('<a>').addClass('card-link').attr('href', '/api/todolists/edit/' + todoList.id).text('Edit').appendTo(cardBody);
+                                $('<a>').addClass('card-link delete-btn').attr('href', '/api/todolists/delete/' + todoList.id).text('Delete').appendTo(cardBody);
+
+                                // Add click event listener to card body
+                                cardBody.click(function() {
+                                    window.location.href = '/api/todolists/taskPage/' + todoList.id;
+                                });
+
+                                card.appendTo('#todo-list');
+                            },
+                            error: function(xhr, status, error) {
+                                console.log("Error loading creator details: " + error);
+                            }
+                        });
+                    });
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error loading todo lists: " + error);
+                }
+            });
+        }
+
+        // Call the loadTodoLists function on page load
+        loadTodoLists();
+
+        // Add event listener for delete button clicks
+        $('body').on('click', '.delete-btn', function(event) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            var id = url.split('/').pop();
+            deleteTodoList(id);
+        });
+
+        // Function to handle deleting a todo list
+        function deleteTodoList(id) {
+            $.ajax({
+                url: '/api/todolists/delete/' + id,
+                type: 'DELETE',
+                success: function(result) {
+                    loadTodoLists();
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error deleting todo list: " + error);
+                }
+            });
+              return false; // prevent default action
+        }
+    });
+</script>
+</body>
+</html>

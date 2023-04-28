@@ -1,0 +1,27 @@
+<!--parent/familygroup/familyGroup.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<h1>PARENT FAMILY GROUP TOOL</h1>
+
+<div>
+    <p>Your family group is: <span th:text="${familyGroupName}"></span></p>
+    <p>Members:</p>
+    <ul>
+        <li th:each="member : ${familyGroupMembers}">
+            <span th:text="${member.firstName}"></span>
+            <span th:text="${member.lastName}"></span>
+        </li>
+    </ul>
+    <form th:action="@{/api/familygroups/{id}/addMember(id=${familyGroupId})}" method="post">
+        <label for="email">Add Member Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+        <input type="submit" value="Add Member">
+    </form>
+</div>
+</body>
+</html>

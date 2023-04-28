@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4851a049-8eb4-43d5-a35e-119d717b4ee8" name="Changes" comment="reward tool function update">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/EventUser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventUserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/EventController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/params/EventCreateParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/params/EventCreateParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/params/EventUpdateParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/params/EventUpdateParams.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/calendar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/calendar.html" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/../../../../Program Files/Java/jdk-17/lib/src.zip!/java.base/java/lang/Long.java" root0="FORCE_HIGHLIGHTING" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="useMavenConfig" value="true" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="ProjectId" id="2NsFkrTXWuXGq3MLJdhVbEzndOi" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "reward-tool-dev",
+    "last_opened_file_path": "C:/Users/katie/Downloads/jar_files (2)/okhttp-4.11.0.jar",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "reference.settings.project.maven.importing"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\static\js" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\user\todolists" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\parent\goals" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\familyrecipes" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\child\familygroup" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates\parent\familygroup" />
+      <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\templates" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="familyhqApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.fam.familyhqApplication" />
+      <module name="CalendarFamApp" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.fam.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.familyhqApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4851a049-8eb4-43d5-a35e-119d717b4ee8" name="Changes" comment="" />
+      <created>1680445040992</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1680445040992</updated>
+    </task>
+    <task id="LOCAL-00001" summary="finished admin dashboard">
+      <created>1680901209146</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1680901209146</updated>
+    </task>
+    <task id="LOCAL-00002" summary="dev on calendar">
+      <created>1680989679284</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1680989679284</updated>
+    </task>
+    <task id="LOCAL-00003" summary="dev on calendar">
+      <created>1681076797472</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1681076797473</updated>
+    </task>
+    <task id="LOCAL-00004" summary="calendar update">
+      <created>1681140190903</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1681140190903</updated>
+    </task>
+    <task id="LOCAL-00005" summary="user dashboard update">
+      <created>1681183320167</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1681183320167</updated>
+    </task>
+    <task id="LOCAL-00006" summary="to do list function update">
+      <created>1681343653396</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1681343653396</updated>
+    </task>
+    <task id="LOCAL-00007" summary="to do list function update">
+      <created>1681418514537</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1681418514537</updated>
+    </task>
+    <task id="LOCAL-00008" summary="to do list function update-1">
+      <created>1681854954464</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1681854954465</updated>
+    </task>
+    <task id="LOCAL-00009" summary="to do list function update-2">
+      <created>1682032861878</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1682032861880</updated>
+    </task>
+    <task id="LOCAL-00010" summary="user stats function update-1">
+      <created>1682205309980</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1682205309981</updated>
+    </task>
+    <task id="LOCAL-00011" summary="roles function update-1">
+      <created>1682376756608</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1682376756609</updated>
+    </task>
+    <task id="LOCAL-00012" summary="instant message and family recipe function update">
+      <created>1682550061404</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1682550061404</updated>
+    </task>
+    <task id="LOCAL-00013" summary="reward tool function update">
+      <created>1682596967161</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1682596967162</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="admin-dashboard-complete" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="finished admin dashboard" />
+    <MESSAGE value="dev on calendar" />
+    <MESSAGE value="calendar update" />
+    <MESSAGE value="user dashboard update" />
+    <MESSAGE value="to do list function update" />
+    <MESSAGE value="to do list function update-1" />
+    <MESSAGE value="to do list function update-2" />
+    <MESSAGE value="user stats function update-1" />
+    <MESSAGE value="roles function update-1" />
+    <MESSAGE value="instant message and family recipe function update" />
+    <MESSAGE value="reward tool function update" />
+    <option name="LAST_COMMIT_MESSAGE" value="reward tool function update" />
+  </component>
+</project>
