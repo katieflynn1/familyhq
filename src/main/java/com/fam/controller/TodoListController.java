@@ -49,7 +49,12 @@ public class TodoListController {
 
     // CREATE NEW TODO LIST
     @PostMapping("/api/create")
-    public String createTodoList(@ModelAttribute("todoList") TodoList todoList, Principal principal) {
+    public String createTodoList(@ModelAttribute("todoList") TodoList todoList, Principal principal, Model model) {
+        if (todoList.getAssignedUserEmail() == null || todoList.getAssignedUserEmail().isEmpty()) {
+            model.addAttribute("errorMessage", "You must assign a user, even if it's yourself.");
+            return "todolists/createForm";
+        }
+
         Optional<User> creatorOptional = userRepository.findByEmail(principal.getName());
         User creator = creatorOptional.orElseThrow(() -> new RuntimeException("User not found")); // or handle the empty case differently
         todoList.setCreatorId(creator.getId());
@@ -82,7 +87,7 @@ public class TodoListController {
     }
 
     // DELETE TODO LIST
-    @RequestMapping(value = "/api/todolists/delete/{id}", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/api/todolists/delete/{id}", method = RequestMethod.POST)
     public String deleteTodoList(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
         TodoList todoList = tr.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
         tr.deleteById(id);
@@ -120,20 +125,26 @@ public class TodoListController {
     @PostMapping("/api/todolists/{id}/tasks/{taskId}")
     public String editTask(@PathVariable("id") Long id, @PathVariable("taskId") Long taskId,
                            @RequestParam String description, @RequestParam(required = false) boolean completed,
-                           HttpServletRequest request) {
+                           HttpServletRequest request, Principal principal) {
         Task task = taskRepository.findById(taskId).orElseThrow(() -> new RuntimeException("Task not found"));
         task.setDescription(description);
 
         boolean wasCompleted = task.isCompleted();
         task.setCompleted(completed);
 
-        if (!wasCompleted && completed && task.getGoal() != null) {
-            Goal goal = task.getGoal();
-            goal.setPointsEarned(goal.getPointsEarned() + 10);
-            if (goal.getPointsEarned() >= goal.getPointsNeeded()) {
-                goal.setCompleted(true);
+        if (!wasCompleted && completed) {
+            TodoList todoList = task.getTodoList();
+            User assignedUser = userRepository.findByEmail(todoList.getAssignedUserEmail())
+                    .orElseThrow(() -> new RuntimeException("Assigned user not found"));
+
+            List<Goal> childGoals = goalRepository.findByAssignedUser(assignedUser);
+            for (Goal goal : childGoals) {
+                goal.setPointsEarned(goal.getPointsEarned() + 10);
+                if (goal.getPointsEarned() >= goal.getPointsNeeded()) {
+                    goal.setCompleted(true);
+                }
+                goalRepository.save(goal);
             }
-            goalRepository.save(goal);
         }
 
         taskRepository.save(task);

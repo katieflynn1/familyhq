@@ -4,17 +4,39 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4851a049-8eb4-43d5-a35e-119d717b4ee8" name="Changes" comment="reward tool function update">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/EventUser.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventUserRepository.java" afterDir="false" />
+    <list default="true" id="4851a049-8eb4-43d5-a35e-119d717b4ee8" name="Changes" comment="calendar function update-4">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/instantmessage.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/navbar.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/recipes.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/static/css/todolist.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/EventController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/EventController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/Event.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/DashboardController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/DashboardController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/controller/TodoListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/controller/TodoListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/TodoList.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/TodoList.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/params/EventCreateParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/params/EventCreateParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/params/EventUpdateParams.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/params/EventUpdateParams.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/fam/repository/EventRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/static/css/dashboard.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/static/css/dashboard.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/auth/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/auth/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/auth/register.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/auth/register.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/templates/calendar.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/calendar.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/child/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/child/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/child/familygroup/familyGroup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/child/familygroup/familyGroup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/child/familygroup/noFamilyGroup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/child/familygroup/noFamilyGroup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/child/goals/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/child/goals/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/child/reward.html" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/familyrecipes/family-recipes.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/familyrecipes/family-recipes.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/familyrecipes/mealSearch.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/familyrecipes/mealSearch.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/familyrecipes/meals.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/familyrecipes/meals.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/familyrecipes/recipeDetails.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/familyrecipes/recipeDetails.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/instantmessage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/instantmessage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/parent/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/parent/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/parent/familygroup/familyGroup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/parent/familygroup/familyGroup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/parent/familygroup/noFamilyGroup.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/parent/familygroup/noFamilyGroup.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/parent/goals/list.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/parent/goals/list.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/statistics.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/statistics.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/todolists/createForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todolists/createForm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/todolists/editForm.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todolists/editForm.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/todolists/taskPage.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todolists/taskPage.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/templates/todolists/todolist.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/templates/todolists/todolist.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,18 +71,18 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "reward-tool-dev",
-    "last_opened_file_path": "C:/Users/katie/Downloads/jar_files (2)/okhttp-4.11.0.jar",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.importing"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;calendar-dev4&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/katie/Downloads/jar_files (2)/okhttp-4.11.0.jar&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.importing&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\katie\GitHub\familyhq\src\main\resources\static\js" />
@@ -206,7 +228,14 @@
       <option name="project" value="LOCAL" />
       <updated>1682596967162</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="calendar function update-4">
+      <created>1682629082923</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1682629082923</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -244,6 +273,7 @@
     <MESSAGE value="roles function update-1" />
     <MESSAGE value="instant message and family recipe function update" />
     <MESSAGE value="reward tool function update" />
-    <option name="LAST_COMMIT_MESSAGE" value="reward tool function update" />
+    <MESSAGE value="calendar function update-4" />
+    <option name="LAST_COMMIT_MESSAGE" value="calendar function update-4" />
   </component>
 </project>

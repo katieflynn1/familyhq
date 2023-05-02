@@ -5,8 +5,51 @@
     <title>Parent Rewards</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
+<!-- NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{|/|}" th:text="'Family HQ'"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{|/|}" th:text="'Home'"></a>
+                </li>
+                <li class="nav-item d-flex">
+                    <a class="nav-link" th:href="@{|/login|}" th:text="'Log in'"
+                       sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
+                    <a class="nav-link" th:href="@{|/register|}" th:text="'Register'"
+                       sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{|/child/dashboard|}" th:text="'Child Dashboard'"
+                       sec:authorize="hasAuthority('CHILD')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{|/parent/dashboard|}" th:text="'Parent Dashboard'"
+                       sec:authorize="hasAuthority('PARENT')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}" th:text="'Log out'"
+                       sec:authorize="isAuthenticated()"></a>
+                </li>
+
+                <a class="nav-link" sec:authentication="name" sec:authorize="isAuthenticated()"></a>
+                <a class="nav-link" sec:authentication="authorities" sec:authorize="isAuthenticated()"></a>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Main content -->
+<div class="main-content">
 
 <div class="container mt-5">
     <h1>Parent Rewards</h1>
@@ -15,7 +58,7 @@
     <!-- Goal creation and assignment form -->
     <div class="row mb-4">
         <div class="col-md-12">
-            <form th:action="@{/api/goals}" method="post">
+            <form th:action="@{/api/goals}" method="post" class="mx-auto" style="max-width: 600px;">
                 <div class="form-group">
                     <label for="title">Goal Title:</label>
                     <input type="text" class="form-control" id="title" name="title" required>
@@ -40,21 +83,23 @@
     <!-- List of created goals -->
     <div class="row">
         <div class="col-md-12">
-            <ul class="list-group">
-                <li th:each="goal : ${goals}" class="list-group-item d-flex justify-content-between align-items-center">
-                    <div>
-                        <span th:text="${goal.title}"></span> - <span th:text="${goal.pointsNeeded}"></span> points
-                    </div>
-                    <div>
-                        <!-- Delete goal form -->
+            <div class="card-columns">
+                <div th:each="goal : ${goals}" class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${goal.title}"></h5>
+                        <p class="card-text">Points: <span th:text="${goal.pointsEarned}"></span> / <span th:text="${goal.pointsNeeded}"></span></p>
+                        <div class="progress mb-3">
+                            <div class="progress-bar" role="progressbar" th:style="'width: ' + ${goal.pointsEarned * 100 / goal.pointsNeeded} + '%'" th:attr="aria-valuenow=${goal.pointsEarned}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                         <form th:action="@{/api/goals/{id}/delete(goalId=${goal.id})}" method="post" style="display:inline;">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
                     </div>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>

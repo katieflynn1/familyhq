@@ -5,9 +5,52 @@
     <title>Recipes Search</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/recipes.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
+<!-- NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{|/|}" th:text="'Family HQ'"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{|/|}" th:text="'Home'"></a>
+                </li>
+                <li class="nav-item d-flex">
+                    <a class="nav-link" th:href="@{|/login|}" th:text="'Log in'"
+                       sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
+                    <a class="nav-link" th:href="@{|/register|}" th:text="'Register'"
+                       sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{|/child/dashboard|}" th:text="'Child Dashboard'"
+                       sec:authorize="hasAuthority('CHILD')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{|/parent/dashboard|}" th:text="'Parent Dashboard'"
+                       sec:authorize="hasAuthority('PARENT')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}" th:text="'Log out'"
+                       sec:authorize="isAuthenticated()"></a>
+                </li>
 
+                <a class="nav-link" sec:authentication="name" sec:authorize="isAuthenticated()"></a>
+                <a class="nav-link" sec:authentication="authorities" sec:authorize="isAuthenticated()"></a>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!-- Main content -->
+<div class="main-content">
 <div class="container mt-5">
     <h1>Recipes Search</h1>
     <hr>
@@ -17,10 +60,16 @@
             <h3>Search for Recipes</h3>
             <form id="search-form">
                 <div class="form-group">
-                    <label for="search">Recipe Name</label>
-                    <input type="text" class="form-control" id="search" placeholder="Enter recipe name">
+                    <div class="input-group">
+                        <input type="text" class="form-control" id="search" placeholder="Enter recipe name">
+                        <span class="input-group-btn">
+                            <button type="submit" class="btn btn-info btn-lg">
+                                <i class="glyphicon glyphicon-search"></i>
+                                Search
+                            </button>
+                        </span>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
     </div>
@@ -28,15 +77,8 @@
     <div class="row mt-5">
         <div class="col-md-12">
             <h3>Search Results</h3>
-            <table id="search-results" class="table table-bordered table-striped">
-                <thead>
-                <tr>
-                    <th>Recipe</th>
-                    <th>Action</th>
-                </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+            <div id="search-results">
+            </div>
         </div>
     </div>
 </div>
@@ -53,29 +95,35 @@
             let searchQuery = $('#search').val();
             if (searchQuery) {
                 $.get("/tasty/recipes/list", { query: searchQuery, from: 0, size: 10 }, function (data) {
-                    let results = data.results; // Change this line
+                    let results = data.results;
                     let resultsHtml = '';
 
                     results.forEach(function (result) {
                     let recipeId = result.id;
                     let recipeName = result.name;
-                    let recipeUrl = "/tasty/recipes/get-more-info?id=" + recipeId; // Create the URL using the id
+                    let recipeUrl = "/tasty/recipes/get-more-info?id=" + recipeId;
                     let imageUrl = result.thumbnail_url;
-                    resultsHtml += `<tr>
-        <td>
-            <a href="${recipeUrl}" target="_blank">${recipeName}</a><br>
-            <img src="${imageUrl}" alt="${recipeName}" style="width: 100px; height: auto;">
-        </td>
-        <td>
+                    resultsHtml += `<div class="well search-result">
+    <div class="row">
+        <a href="${recipeUrl}" target="_blank">
+            <div class="col-xs-6 col-sm-3 col-md-3 col-lg-2">
+                <img class="img-responsive" src="${imageUrl}" alt="${recipeName}">
+            </div>
+            <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10 title">
+                <h3>${recipeName}</h3>
+            </div>
+        </a>
+        <div class="col-xs-6 col-sm-9 col-md-9 col-lg-10">
             <button class="btn btn-primary add-to-favorites" data-recipe-title="${recipeName}" data-url="${recipeUrl}">Add to Favorites</button>
-        </td>
-    </tr>`;
+        </div>
+    </div>
+</div>`;
 });
 
-                    $('#search-results tbody').html(resultsHtml);
-                }, "json"); // Add "json" argument here
+                    $('#search-results').html(resultsHtml);
+                }, "json");
             } else {
-                $('#search-results tbody').html('');
+                $('#search-results').html('');
             }
         });
 
@@ -92,5 +140,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</div>
 </body>
 </html>

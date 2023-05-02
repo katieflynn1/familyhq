@@ -74,17 +74,17 @@ public class DashboardController {
         long numEvents = eventRepository.countByCreator(currentUser);
         long numCompletedEvents = eventRepository.countByCreatorAndCompleted(currentUser, true);
         long numIncompleteEvents = numEvents - numCompletedEvents;
-        double eventCompletionRatio = (double) numCompletedEvents / (double) numEvents;
+        double eventCompletionRatio = numEvents == 0 ? 0.0 : (double) numCompletedEvents / (double) numEvents;
 
         long numTodoLists = todoListRepository.countByCreatorId(currentUser.getId());
         long numCompletedTodoLists = todoListRepository.countByCreatorIdAndCompleted(currentUser.getId(), true);
         long numIncompleteTodoLists = numTodoLists - numCompletedTodoLists;
-        double todoListCompletionRatio = (double) numCompletedTodoLists / (double) numTodoLists;
+        double todoListCompletionRatio = numTodoLists == 0 ? 0.0 : (double) numCompletedTodoLists / (double) numTodoLists;
 
         long numTasks = taskRepository.countByTodoList_CreatorId(currentUser.getId());
         long numCompletedTasks = taskRepository.countByTodoList_CreatorIdAndCompleted(currentUser.getId(), true);
         long numIncompleteTasks = numTasks - numCompletedTasks;
-        double taskCompletionRatio = (double) numCompletedTasks / (double) numTasks;
+        double taskCompletionRatio = numTasks == 0 ? 0.0 : (double) numCompletedTasks / (double) numTasks;
 
         Statistics statistics = new Statistics(
                 numEvents,
@@ -103,7 +103,6 @@ public class DashboardController {
         statistics.setUser(currentUser);
         statisticsRepository.save(statistics);
     }
-
 
     // FAMILY RECIPES PAGE
     @RequestMapping(value = {"/meals"}, method = RequestMethod.GET)
