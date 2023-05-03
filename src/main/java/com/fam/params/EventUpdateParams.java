@@ -14,11 +14,8 @@ public class EventUpdateParams {
     public String user;
     public List<String> assignedUserEmails;
 
-    // default constructor
     public EventUpdateParams() {
     }
-
-    // parameterized constructor
     public EventUpdateParams(String title, LocalDateTime start, LocalDateTime end, String category, Boolean completed, String notes, String user) {
         this.title = title;
         this.start = start;
@@ -30,7 +27,6 @@ public class EventUpdateParams {
     }
 
     // getters and setters
-
     public String getTitle() {
         return title;
     }

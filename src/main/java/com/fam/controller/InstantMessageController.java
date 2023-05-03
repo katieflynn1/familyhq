@@ -75,10 +75,7 @@ public class InstantMessageController {
         instantMessage.setFamilyGroup(familyGroup.get());
         instantMessage.setTimestamp(LocalDateTime.now());
 
-        // Save the message
         instantMessageService.save(instantMessage);
-
-        // Redirect back to the instant message page
         return "redirect:/instantmessage";
     }
 }

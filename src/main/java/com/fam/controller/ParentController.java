@@ -53,7 +53,7 @@ public class ParentController {
         }
 
         model.addAttribute("goals", createdGoals);
-        model.addAttribute("children", children); // Add children to the model
+        model.addAttribute("children", children);
         return "parent/goals/list";
     }
 

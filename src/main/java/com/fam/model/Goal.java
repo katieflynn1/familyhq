@@ -47,7 +47,6 @@ public class Goal {
         this.completed = completed;
     }
 
-
     // Getters and setters
     public Long getId() {
         return id;

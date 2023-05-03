@@ -2,7 +2,7 @@
         background: linear-gradient(to bottom, #F2E5D9, #DBC2AD);
     }
     .card-body {
-       height: 250px;
+       height: 100px;
     }
 
     .card-img-top {
@@ -36,6 +36,11 @@
       .bi {
         vertical-align: -.125em;
         fill: currentColor;
+      }
+
+      .html, body {
+        max-width: 100%;
+        overflow-x: hidden;
       }
 
 

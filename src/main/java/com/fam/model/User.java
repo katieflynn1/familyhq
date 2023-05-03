@@ -82,6 +82,8 @@ public class User implements UserDetails  {
     @JsonManagedReference
     private Set<EventUser> assignedEvents = new HashSet<>();
 
+    private int pointsEarned;
+
     @Override
     public String getPassword() {
         return password;
@@ -171,5 +173,13 @@ public class User implements UserDetails  {
 
     public void setAssignedEvents(Set<EventUser> assignedEvents) {
         this.assignedEvents = assignedEvents;
+    }
+
+    public int getPointsEarned() {
+        return pointsEarned;
+    }
+
+    public void setPointsEarned(int pointsEarned) {
+        this.pointsEarned = pointsEarned;
     }
 }

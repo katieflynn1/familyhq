@@ -6,27 +6,84 @@
     <title>Todo Lists</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/todolist.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css">
 
     <!--jQuery Library-->
     <script th:src="@{/js/jquery-1.9.1.min.js}"></script>
-</head>
-<body>
-<div class="container-fluid py-4">
-    <h1>Todo Lists</h1>
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4" id="todo-list">
-    </div>
-    <div class="add-todo-list">
-        <a th:href="@{/api/createForm}">Create new todo list</a>
-    </div>
-</div>
+    <style>
+        .content-card {
+            padding: 15px;
+        }
 
-<style>
-    .card {
-        margin-bottom: 20px;
-        margin-left: 5px;
-        margin-right: 5px;
-    }
-</style>
+        .card-big-shadow {
+            position: relative;
+            margin-bottom: 30px;
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            -o-transform-style: preserve-3d;
+            transform-style: preserve-3d;
+        }
+
+        .card-just-text {
+            border-radius: 0;
+            padding: 20px 30px;
+        }
+    </style>
+</head>
+<!-- NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{|/|}" th:text="'Family HQ'"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{|/|}" th:text="'Home'"></a>
+                </li>
+                <li class="nav-item d-flex">
+                    <a class="nav-link" th:href="@{|/login|}" th:text="'Log in'"
+                       sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
+                    <a class="nav-link" th:href="@{|/register|}" th:text="'Register'"
+                       sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{|/child/dashboard|}" th:text="'Child Dashboard'"
+                       sec:authorize="hasAuthority('CHILD')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{|/parent/dashboard|}" th:text="'Parent Dashboard'"
+                       sec:authorize="hasAuthority('PARENT')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}" th:text="'Log out'"
+                       sec:authorize="isAuthenticated()"></a>
+                </li>
+
+                <a class="nav-link" sec:authentication="name" sec:authorize="isAuthenticated()"></a>
+                <a class="nav-link" sec:authentication="authorities" sec:authorize="isAuthenticated()"></a>
+
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<body>
+<!-- Main content -->
+<div class="main-content">
+    <div class="container-fluid py-4">
+        <div class="row" id="todo-list">
+        </div>
+        <div class="d-flex justify-content-center">
+            <a th:href="@{/api/createForm}" class="btn" style="background-color: #F2E5D9; color: #000; text-decoration: none;">
+                Create New To Do List
+            </a>
+        </div>
+    </div>
+
 <script th:inline="javascript">
     $(document).ready(function() {
         // Function to load the todo lists
@@ -38,7 +95,6 @@
                     // Remove any existing items from the list
                     $('#todo-list').empty();
 
-                    // Add each todo list to the DOM
                     $.each(todoLists, function(index, todoList) {
                         var assigned = todoList.assignedUserEmail ? todoList.assignedUserEmail : '-';
                         var completed = todoList.completed ? 'Yes' : 'No';
@@ -48,21 +104,18 @@
                             url: '/users/' + todoList.creatorId,
                             type: 'GET',
                             success: function(creator) {
-                                var card = $('<div>').addClass('card');
-                                var cardBody = $('<div>').addClass('card-body').appendTo(card);
-                                $('<h5>').addClass('card-title').text(todoList.title).appendTo(cardBody);
-                                $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Creator: ' + creator.email).appendTo(cardBody);
-                                $('<h6>').addClass('card-subtitle mb-2 text-muted').text('Assigned To: ' + assigned).appendTo(cardBody);
-                                $('<p>').addClass('card-text').text('Completed: ' + completed).appendTo(cardBody);
-                                $('<a>').addClass('card-link').attr('href', '/api/todolists/edit/' + todoList.id).text('Edit').appendTo(cardBody);
-                                $('<a>').addClass('card-link delete-btn').attr('href', '/api/todolists/delete/' + todoList.id).text('Delete').appendTo(cardBody);
+                                var col = $('<div>').addClass('col-md-4 col-sm-6 content-card').appendTo('#todo-list');
+                                var cardBigShadow = $('<div>').addClass('card-big-shadow').appendTo(col);
+                                var card = $('<div>').addClass('card card-just-text').attr('data-background', 'color').attr('data-color', 'blue').attr('data-radius', 'none').appendTo(cardBigShadow);
+                                var content = $('<div>').addClass('content').appendTo(card);
+                                $('<h6>').addClass('category').text('Todo List').appendTo(content);
+                                $('<h4>').addClass('title').text(todoList.title).appendTo(content);
+                                $('<p>').addClass('description').text('Creator: ' + creator.email + ', Assigned To: ' + assigned + ', Completed: ' + completed).appendTo(content);
 
                                 // Add click event listener to card body
-                                cardBody.click(function() {
+                                content.click(function() {
                                     window.location.href = '/api/todolists/taskPage/' + todoList.id;
                                 });
-
-                                card.appendTo('#todo-list');
                             },
                             error: function(xhr, status, error) {
                                 console.log("Error loading creator details: " + error);
@@ -73,13 +126,13 @@
                 error: function(xhr, status, error) {
                     console.log("Error loading todo lists: " + error);
                 }
-            });
+      });
         }
 
         // Call the loadTodoLists function on page load
         loadTodoLists();
 
-        // Add event listener for delete button clicks
+        // Event listener for delete button clicks
         $('body').on('click', '.delete-btn', function(event) {
             event.preventDefault();
             var url = $(this).attr('href');
@@ -103,5 +156,6 @@
         }
     });
 </script>
+</div>
 </body>
 </html>

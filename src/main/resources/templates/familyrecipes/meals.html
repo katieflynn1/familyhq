@@ -5,18 +5,95 @@
     <title>Family Favorite Recipes</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css">
+    <style>
+        .background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+}
+
+.background-image::before {
+    content: "";
+    background-image: url('https://images.pexels.com/photos/7172069/pexels-photo-7172069.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
+}
+
+.recipe-btn {
+    display: block;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto 15px;
+    padding: 10px;
+    background-color: #F2E5D9;
+    color: #333;
+    text-align: center;
+}
+    </style>
 </head>
 <body>
+<!-- NAVBAR-->
+<nav class="navbar navbar-expand-lg navbar-light bg-light shadow fixed-top">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{|/|}" th:text="'Family HQ'"></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+                aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span
+                class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav ms-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" th:href="@{|/|}" th:text="'Home'"></a>
+                </li>
+                <li class="nav-item d-flex">
+                    <a class="nav-link" th:href="@{|/login|}" th:text="'Log in'"
+                       sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
+                    <a class="nav-link" th:href="@{|/register|}" th:text="'Register'"
+                       sec:authorize="hasRole('ROLE_ANONYMOUS')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{|/child/dashboard|}" th:text="'Child Dashboard'"
+                       sec:authorize="hasAuthority('CHILD')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{|/parent/dashboard|}" th:text="'Parent Dashboard'"
+                       sec:authorize="hasAuthority('PARENT')"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/logout}" th:text="'Log out'"
+                       sec:authorize="isAuthenticated()"></a>
+                </li>
 
-<div class="container mt-5">
-    <h1>Family Favorite Recipes</h1>
-    <hr>
+                <a class="nav-link" sec:authentication="name" sec:authorize="isAuthenticated()"></a>
+                <a class="nav-link" sec:authentication="authorities" sec:authorize="isAuthenticated()"></a>
 
-    <div class="row">
-        <div class="col-md-12">
-            <ul id="favorite-recipes" class="list-unstyled"></ul>
+                </li>
+            </ul>
         </div>
     </div>
+</nav>
+<!-- Main content -->
+<div class="main-content">
+    <div class="container mt-5">
+        <h1>Family Favorite Recipes</h1>
+        <hr>
+
+        <div class="row">
+            <div class="col-md-12">
+                <ul id="favorite-recipes" class="list-unstyled"></ul>
+            </div>
+        </div>
+    </div>
+    <div class="background-image"></div>
 </div>
 <script th:inline="javascript">
    $(document).ready(function () {
@@ -32,7 +109,7 @@
                 recipeUrl = "/tasty/recipes/detail?id=" + recipeId;
             }
 
-            favoriteRecipesHtml += `<li><a href="${recipeUrl}" target="_blank">${recipeTitle}</a></li>`;
+            favoriteRecipesHtml += `<li><a href="${recipeUrl}" target="_blank" class="recipe-btn">${recipeTitle}</a></li>`;
         });
 
         $('#favorite-recipes').html(favoriteRecipesHtml);
@@ -42,5 +119,6 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</div>
 </body>
 </html>

@@ -62,7 +62,6 @@ public class TastyApiController {
             JSONParser parser = new JSONParser(JSONParser.DEFAULT_PERMISSIVE_MODE);
             JSONObject recipeJson = (JSONObject) parser.parse(recipeDetails);
 
-            // Extract the required properties from the JSON object
             String name = recipeJson.getAsString("name");
             String thumbnailUrl = recipeJson.getAsString("thumbnail_url");
 
@@ -94,7 +93,6 @@ public class TastyApiController {
                 }
             }
 
-            // Add the extracted properties to the model
             model.addAttribute("name", name);
             model.addAttribute("thumbnail_url", thumbnailUrl);
             if (ingredients != null) {
@@ -112,7 +110,6 @@ public class TastyApiController {
         } catch (Exception e) {
             // Log the exception
             LOGGER.log(Level.SEVERE, "Error retrieving recipe details: " + e.getMessage(), e);
-            // Log the exception if needed
             model.addAttribute("errorMessage", "There was an error retrieving the recipe details. Please try again later.");
             return "error";
         }
@@ -123,7 +120,7 @@ public class TastyApiController {
     @ResponseBody
     public List<FamilyRecipe> getFamilyRecipesData(Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
-        FamilyGroup familyGroup = user.getFamilyGroups().iterator().next(); // Get the first FamilyGroup from the Set
+        FamilyGroup familyGroup = user.getFamilyGroups().iterator().next();
 
         return familyRecipeRepository.findByFamilyGroup(familyGroup);
     }

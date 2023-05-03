@@ -18,9 +18,7 @@ public class TodoListUpdateParams {
     }
 
     public TodoListUpdateParams() {
-
     }
-
     public Long getId() {
         return id;
     }

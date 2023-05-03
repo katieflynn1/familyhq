@@ -13,11 +13,9 @@ public class EventCreateParams {
     public String user;
     public List<String> assignedUserEmails;
 
-    // default constructor
     public EventCreateParams() {
     }
 
-    // parameterized constructor
     public EventCreateParams(String title, LocalDateTime start, LocalDateTime end, String category, Boolean completed, String notes, String user) {
         this.title = title;
         this.start = start;
@@ -29,7 +27,6 @@ public class EventCreateParams {
     }
 
     // getters and setters
-
     public String getTitle() {
         return title;
     }
