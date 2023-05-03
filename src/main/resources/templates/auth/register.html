@@ -69,6 +69,9 @@
 
         <div class="card bg-glass">
           <div class="card-body px-4 py-5 px-md-5">
+            <div th:if="${successMessage}" class="alert alert-danger" role="alert">
+              <p th:text="${successMessage}"></p>
+            </div>
             <form th:action="@{/register}" th:object="${user}" method="post">
               <div class="row">
                 <div class="col-md-6 mb-4">
@@ -120,5 +123,6 @@
     </div>
   </div>
 </section>
+
 </body>
 </html>

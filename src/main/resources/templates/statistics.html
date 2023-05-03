@@ -70,7 +70,7 @@
 <div class="main-content">
 <div class="container">
     <h1 class="text-center">User Statistics</h1>
-    <!-- Add three buttons to display the statistics -->
+    <!-- buttons to display the statistics -->
     <div class="d-flex justify-content-center mb-4">
         <button class="btn btn-custom mx-1" onclick="displayEventStats()">Event Statistics</button>
         <button class="btn btn-custom mx-1" onclick="displayEventCategoryStats()">Event Category Statistics</button>
@@ -78,7 +78,7 @@
         <button class="btn btn-custom mx-1" onclick="displayTaskStats()">Task Statistics</button>
     </div>
     <div id="chart-container" style="width: 800px; height: 600px; margin: 0 auto;"></div>
-    <!-- Pass eventData and eventLabels to the JavaScript chart function -->
+
 <script th:inline="javascript">
     function displayEventStats() {
         $.get("/api/statistics/event", function(data) {

@@ -26,13 +26,12 @@ public class TastyApiService {
 
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         if (response.statusCode() == 204) {
-            return "{}"; // Return an empty JSON object for 204 status code
+            return "{}";
         } else if (response.statusCode() != 200) {
             throw new Exception("Unexpected response code: " + response.statusCode());
         }
 
         if (path.startsWith("/recipes/get-more-info")) {
-            // If the endpoint is /recipes/get-more-info, no need to extract the 'data' field from the response JSON
             return response.body();
         }
 

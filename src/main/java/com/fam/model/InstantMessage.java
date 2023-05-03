@@ -15,9 +15,6 @@ public class InstantMessage {
     @Column(name = "sender_email")
     private String senderEmail;
 
-   // @Column(name = "sender_last_name")
-    //private String senderLastName;
-
     @Column(name = "message_content")
     private String messageContent;
 
@@ -54,14 +51,6 @@ public class InstantMessage {
     public void setSenderEmail(String senderEmail) {
         this.senderEmail = senderEmail;
     }
-
-//    public String getSenderLastName() {
-//        return senderLastName;
-//    }
-//
-//    public void setSenderLastName(String senderLastName) {
-//        this.senderLastName = senderLastName;
-//    }
 
     public String getMessageContent() {
         return messageContent;

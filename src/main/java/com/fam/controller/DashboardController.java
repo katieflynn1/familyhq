@@ -114,7 +114,7 @@ public class DashboardController {
     @GetMapping("/tasty/familyrecipes/mealSearch")
     public String mealSearch(Model model, Principal principal) {
         User user = userRepository.findByEmail(principal.getName()).orElseThrow(() -> new RuntimeException("User not found"));
-        FamilyGroup familyGroup = user.getFamilyGroups().iterator().next(); // Get the first FamilyGroup from the Set
+        FamilyGroup familyGroup = user.getFamilyGroups().iterator().next();
         model.addAttribute("familyGroupId", familyGroup.getId());
 
         return "familyrecipes/mealSearch";

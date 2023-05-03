@@ -104,15 +104,12 @@ public class StatisticsController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
         List<Event> userEvents = eventRepository.findByCreator(currentUser);
 
-        // Calculate the number of events in each category
         Map<String, Long> categoryCounts = userEvents.stream()
                 .collect(Collectors.groupingBy(Event::getCategory, Collectors.counting()));
 
-        // Create the data for the event by category chart
         List<List<Object>> eventByCategoryChartData = new ArrayList<>();
         categoryCounts.forEach((category, count) -> eventByCategoryChartData.add(List.of(category, count)));
 
-        // Construct the response body
         Map<String, Object> responseBody = new HashMap<>();
         responseBody.put("chartData", eventByCategoryChartData);
         responseBody.put("chartLabels", List.of("Event Categories", "Number of Events"));

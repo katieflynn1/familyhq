@@ -7,22 +7,22 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
     <link th:href="@{/css/navbar.css}" rel="stylesheet" type="text/css">
     <style>
-        .my-message {
-            background-color: #d4e157;
-            display: inline-block;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 5px;
-        }
+    .my-message {
+        background-color: #D9E6F2;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 5px;
+    }
 
-        .other-message {
-            background-color: #f1f1f1;
-            display: inline-block;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 5px;
-        }
-    </style>
+    .other-message {
+        background-color: #F2E5D9;
+        display: inline-block;
+        padding: 10px;
+        border-radius: 4px;
+        margin-bottom: 5px;
+    }
+</style>
 </head>
 <body>
 <!-- NAVBAR-->
@@ -68,43 +68,43 @@
 <!-- Main content -->
 <div class="main-content">
 
-<div class="container mt-5">
-    <h1>Family Group Chat</h1>
-    <hr>
+    <div class="container mt-5">
+        <h1>Family Group Chat</h1>
+        <hr>
 
-    <div class="row">
-        <div class="col-md-8">
-            <div class="chat-window" style="height: 500px; overflow-y: scroll; border: 1px solid #ccc; padding: 15px;">
-                <ul>
-                    <li th:each="msg : ${messages}">
-                        <div th:class="${msg.senderEmail == loggedInUserEmail} ? 'float-right my-message' : 'other-message'">
-                            <strong th:text="${msg.senderEmail}">Sender</strong>:
-                            <span th:text="${msg.messageContent}">Message content</span>
-                            <small class="text-muted d-block" th:text="${#temporals.format(msg.timestamp, 'HH:mm:ss dd/MM/yyyy')}">Timestamp</small>
-                        </div>
-                        <div class="clearfix"></div>
-                    </li>
-                </ul>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="chat-window" style="height: 80vh; overflow-y: scroll; border: 1px solid #ccc; padding: 15px;">
+                    <ul>
+                        <li th:each="msg : ${messages}">
+                            <div th:class="${msg.senderEmail == loggedInUserEmail} ? 'float-right my-message' : 'other-message'">
+                                <strong th:text="${msg.senderEmail}">Sender</strong>:
+                                <span th:text="${msg.messageContent}">Message content</span>
+                                <small class="text-muted d-block" th:text="${#temporals.format(msg.timestamp, 'HH:mm:ss dd/MM/yyyy')}">Timestamp</small>
+                            </div>
+                            <div class="clearfix"></div>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="row mt-4">
-        <div class="col-md-8">
-            <form th:action="@{/instantmessage}" method="post">
-                <div class="form-group">
-                    <label for="messageContent">Message:</label>
-                    <input type="text" class="form-control" id="messageContent" name="messageContent" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Send</button>
-            </form>
+        <div class="row mt-4">
+            <div class="col-md-8">
+                <form th:action="@{/instantmessage}" method="post">
+                    <div class="form-group">
+                        <label for="messageContent">Message:</label>
+                        <input type="text" class="form-control" id="messageContent" name="messageContent" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</div>
+        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </div>
 </div>
 </body>
 </html>

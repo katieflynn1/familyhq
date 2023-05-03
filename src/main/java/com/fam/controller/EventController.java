@@ -62,7 +62,6 @@ public class EventController {
                 e.setNotes(params.notes);
                 e.setCreator(user);
 
-                // Save the event first
                 e = er.save(e);
 
                 if (params.assignedUserEmails != null) {

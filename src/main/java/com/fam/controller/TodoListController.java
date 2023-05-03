@@ -91,7 +91,6 @@ public class TodoListController {
     public String deleteTodoList(@PathVariable("id") Long id, Model model, HttpServletRequest request) {
         TodoList todoList = tr.findById(id).orElseThrow(() -> new RuntimeException("TodoList not found"));
         tr.deleteById(id);
-        //String referer = request.getHeader("Referer");
         return null;
     }
 
